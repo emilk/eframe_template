@@ -1,5 +1,8 @@
 # Egui Template
 
+[![dependency status](https://deps.rs/repo/github/emilk/egui_template/status.svg)](https://deps.rs/repo/github/emilk/egui_template)
+[![Build Status](https://github.com/emilk/egui_template/workflows/CI/badge.svg)](https://github.com/emilk/egui_template/actions?workflow=CI)
+
 This is a template repo for [Egui](https://github.com/emilk/egui/).
 
 The goal is for this to be the simplest way to get started writing a GUI app in Rust.
@@ -38,6 +41,8 @@ The finished we app is found in the `docs/` folder (this is so that you can easi
 * `index.html`: A few lines of HTML, CSS and JS that loads your app. **You need to edit this** (once) to replace `egui_template` with the name of your crate!
 * `your_crate_bg.wasm`: What the Rust code compiles to.
 * `your_crate.js`: Auto-generated binding between Rust and JS.
+
+You can test the template app at <https://emilk.github.io/egui_template/>.
 
 ## Updating Egui
 

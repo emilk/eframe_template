@@ -42,7 +42,7 @@ impl egui::app::App for EguiApp {
             painting,
         } = self;
 
-        // Examples of how to create differens panels and windows.
+        // Examples of how to create different panels and windows.
         // Pick whichever suits you.
         // Tip: a good default choice is to just keep the `CentralPanel`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
@@ -133,21 +133,21 @@ impl Default for Painting {
 }
 
 impl Painting {
-    pub fn ui_control(&mut self, ui: &mut egui::Ui) {
+    pub fn ui_control(&mut self, ui: &mut egui::Ui) -> egui::Response {
         ui.horizontal(|ui| {
             self.stroke.ui(ui, "Stroke");
             ui.separator();
             if ui.button("Clear Painting").clicked {
                 self.lines.clear();
             }
-        });
+        })
+        .1
     }
 
-    pub fn ui_content(&mut self, ui: &mut egui::Ui) {
-        let painter = ui.allocate_painter(ui.available_size_before_wrap_finite());
-        let rect = painter.clip_rect();
-        let id = ui.make_position_id();
-        let response = ui.interact(rect, id, egui::Sense::drag());
+    pub fn ui_content(&mut self, ui: &mut egui::Ui) -> egui::Response {
+        let (response, painter) =
+            ui.allocate_painter(ui.available_size_before_wrap_finite(), egui::Sense::drag());
+        let rect = response.rect;
 
         if self.lines.is_empty() {
             self.lines.push(vec![]);
@@ -172,5 +172,7 @@ impl Painting {
                 painter.add(egui::PaintCmd::line(points, self.stroke));
             }
         }
+
+        response
     }
 }
