@@ -10,25 +10,14 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-egui = "0.6"
+eframe = "0.7" # Gives us egui, epi and web+native backends
 
-# Gives us persistence. Remove if you do like.
-serde = { version = "1", features = ["derive"] }
+serde = { version = "1", features = ["derive"], optional = true }
 
-# For compiling natively:
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-egui_glium = "0.6"
-
-# For compiling to web:
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-egui_web = "0.6"
-js-sys = "0.3"
-wasm-bindgen = "0.2"
-
-# [patch.crates-io]
-# egui = { git = "https://github.com/emilk/egui", rev = "db3fdbe6d3c1b2baf9cb71445f8dbbf8aded0e29" } # 2020-12-26
-# egui_glium = { git = "https://github.com/emilk/egui", rev = "db3fdbe6d3c1b2baf9cb71445f8dbbf8aded0e29" } # 2020-12-26
-# egui_web = { git = "https://github.com/emilk/egui", rev = "db3fdbe6d3c1b2baf9cb71445f8dbbf8aded0e29" } # 2020-12-26
+[features]
+default = []
+http = ["eframe/http"] # Enable if you want to do http requests
+persistence = ["eframe/persistence", "serde"] # Enable if you want to persist app state on shutdown
 
 [profile.release]
 opt-level = 2 # fast and small wasm

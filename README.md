@@ -9,7 +9,6 @@ The goal is for this to be the simplest way to get started writing a GUI app in 
 
 You can compile your app natively or for the web, and share it using Github Pages.
 
-
 ## Getting started
 
 Start by clicking "Use this template" at https://github.com/emilk/egui_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
@@ -46,4 +45,4 @@ You can test the template app at <https://emilk.github.io/egui_template/>.
 
 ## Updating Egui
 
-As of 2020, Egui is in active development with frequent releases with breaking changes. When updating Egui, update the version string in `Cargo.toml` of `egui`, `egui_glium` and `egui_web` (they should match). You can also check out the [egui_template](https://github.com/emilk/egui_template/) repository to see what changes has happened to it.
+As of 2020, Egui is in active development with frequent releases with breaking changes. [egui_template](https://github.com/emilk/egui_template/) will be updated in lock-step to always use the latest version of Egui.

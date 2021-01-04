@@ -1,13 +1,15 @@
+use eframe::{egui, epi};
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
-#[derive(serde::Deserialize, serde::Serialize)]
-pub struct EguiApp {
+#[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
+pub struct TemplateApp {
     // Example stuff:
     label: String,
     value: f32,
     painting: Painting,
 }
 
-impl Default for EguiApp {
+impl Default for TemplateApp {
     fn default() -> Self {
         Self {
             // Example stuff:
@@ -18,25 +20,27 @@ impl Default for EguiApp {
     }
 }
 
-impl egui::app::App for EguiApp {
+impl epi::App for TemplateApp {
     fn name(&self) -> &str {
-        "Egui Template"
+        "Egui template"
     }
 
     /// Called by the framework to load old app state (if any).
-    fn load(&mut self, storage: &dyn egui::app::Storage) {
-        *self = egui::app::get_value(storage, egui::app::APP_KEY).unwrap_or_default()
+    #[cfg(feature = "persistence")]
+    fn load(&mut self, storage: &dyn epi::Storage) {
+        *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
     }
 
     /// Called by the frame work to save state before shutdown.
-    fn save(&mut self, storage: &mut dyn egui::app::Storage) {
-        egui::app::set_value(storage, egui::app::APP_KEY, self);
+    #[cfg(feature = "persistence")]
+    fn save(&mut self, storage: &mut dyn epi::Storage) {
+        epi::set_value(storage, epi::APP_KEY, self);
     }
 
     /// Called each time the UI needs repainting, which may be many times per second.
     /// Put your widgets into a `SidePanel`, `TopPanel`, `CentralPanel`, `Window` or `Area`.
-    fn ui(&mut self, ctx: &egui::CtxRef, integration_context: &mut egui::app::IntegrationContext) {
-        let EguiApp {
+    fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
+        let TemplateApp {
             label,
             value,
             painting,
@@ -62,7 +66,7 @@ impl egui::app::App for EguiApp {
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
                 ui.add(
-                    egui::Hyperlink::new("https://github.com/emilk/egui/").text("Powered by Egui"),
+                    egui::Hyperlink::new("https://github.com/emilk/egui/").text("powered by egui"),
                 );
             });
         });
@@ -72,7 +76,7 @@ impl egui::app::App for EguiApp {
             egui::menu::bar(ui, |ui| {
                 egui::menu::menu(ui, "File", |ui| {
                     if ui.button("Quit").clicked {
-                        integration_context.output.quit = true;
+                        frame.quit();
                     }
                 });
             });
@@ -85,7 +89,7 @@ impl egui::app::App for EguiApp {
                 "https://github.com/emilk/egui_template/blob/master/",
                 "Direct link to source code."
             ));
-            egui::demos::warn_if_debug_build(ui);
+            egui::warn_if_debug_build(ui);
 
             ui.separator();
 
@@ -109,15 +113,15 @@ impl egui::app::App for EguiApp {
             });
         }
 
-        // Resize the glium window to be just the size we need it to be:
-        integration_context.output.window_size = Some(ctx.used_size());
+        // Resize the native window to be just the size we need it to be:
+        frame.set_window_size(ctx.used_size());
     }
 }
 
 // ----------------------------------------------------------------------------
 
 /// Example code for painting on a canvas with your mouse
-#[derive(Clone, serde::Deserialize, serde::Serialize)]
+#[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 struct Painting {
     lines: Vec<Vec<egui::Vec2>>,
     stroke: egui::Stroke,
@@ -127,7 +131,7 @@ impl Default for Painting {
     fn default() -> Self {
         Self {
             lines: Default::default(),
-            stroke: egui::Stroke::new(1.0, egui::color::LIGHT_BLUE),
+            stroke: egui::Stroke::new(1.0, egui::Color32::LIGHT_BLUE),
         }
     }
 }
