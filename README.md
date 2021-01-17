@@ -1,9 +1,9 @@
-# Egui Template
+# egui template
 
 [![dependency status](https://deps.rs/repo/github/emilk/egui_template/status.svg)](https://deps.rs/repo/github/emilk/egui_template)
 [![Build Status](https://github.com/emilk/egui_template/workflows/CI/badge.svg)](https://github.com/emilk/egui_template/actions?workflow=CI)
 
-This is a template repo for [Egui](https://github.com/emilk/egui/).
+This is a template repo for [egui](https://github.com/emilk/egui/).
 
 The goal is for this to be the simplest way to get started writing a GUI app in Rust.
 
@@ -43,6 +43,6 @@ The finished we app is found in the `docs/` folder (this is so that you can easi
 
 You can test the template app at <https://emilk.github.io/egui_template/>.
 
-## Updating Egui
+## Updating egui
 
-As of 2020, Egui is in active development with frequent releases with breaking changes. [egui_template](https://github.com/emilk/egui_template/) will be updated in lock-step to always use the latest version of Egui.
+As of 2021, egui is in active development with frequent releases with breaking changes. [egui_template](https://github.com/emilk/egui_template/) will be updated in lock-step to always use the latest version of egui.

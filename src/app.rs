@@ -22,7 +22,7 @@ impl Default for TemplateApp {
 
 impl epi::App for TemplateApp {
     fn name(&self) -> &str {
-        "Egui template"
+        "egui template"
     }
 
     /// Called by the framework to load old app state (if any).
@@ -83,7 +83,7 @@ impl epi::App for TemplateApp {
         });
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Egui Template");
+            ui.heading("egui template");
             ui.hyperlink("https://github.com/emilk/egui_template");
             ui.add(egui::github_link_file_line!(
                 "https://github.com/emilk/egui_template/blob/master/",
@@ -112,9 +112,6 @@ impl epi::App for TemplateApp {
                 ui.label("You would normally chose either panels OR windows.");
             });
         }
-
-        // Resize the native window to be just the size we need it to be:
-        frame.set_window_size(ctx.used_size());
     }
 }
 
@@ -139,7 +136,7 @@ impl Default for Painting {
 impl Painting {
     pub fn ui_control(&mut self, ui: &mut egui::Ui) -> egui::Response {
         ui.horizontal(|ui| {
-            self.stroke.ui(ui, "Stroke");
+            egui::stroke_ui(ui, &mut self.stroke, "Stroke");
             ui.separator();
             if ui.button("Clear Painting").clicked {
                 self.lines.clear();
@@ -170,12 +167,14 @@ impl Painting {
             self.lines.push(vec![]);
         }
 
+        let mut shapes = vec![];
         for line in &self.lines {
             if line.len() >= 2 {
                 let points: Vec<egui::Pos2> = line.iter().map(|p| rect.min + *p).collect();
-                painter.add(egui::PaintCmd::line(points, self.stroke));
+                shapes.push(egui::Shape::line(points, self.stroke));
             }
         }
+        painter.extend(shapes);
 
         response
     }
