@@ -21,3 +21,6 @@ persistence = ["eframe/persistence", "serde"] # Enable if you want to persist ap
 
 [profile.release]
 opt-level = 2 # fast and small wasm
+
+# [patch.crates-io]
+# eframe = { path = "../egui/eframe" }
