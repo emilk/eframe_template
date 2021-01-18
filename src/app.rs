@@ -59,9 +59,20 @@ impl epi::App for TemplateApp {
                 ui.text_edit_singleline(label);
             });
 
-            ui.add(egui::Slider::f32(value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked {
-                *value += 1.0;
+            const MAX_SLIDER_VALUE: f32 = 10.0;
+            ui.add(egui::Slider::f32(value, 0.0..=MAX_SLIDER_VALUE).text("value"));
+
+            let mut button = egui::widgets::Button::new("Increment");
+            if *value >= MAX_SLIDER_VALUE {
+                button = button.enabled(false);
+            }
+
+            if ui.add(button).clicked {
+                if *value + 1.0 > MAX_SLIDER_VALUE {
+                    *value = MAX_SLIDER_VALUE;
+                } else {
+                    *value += 1.0;
+                }
             }
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
