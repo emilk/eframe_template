@@ -39,22 +39,21 @@ jobs:
           command: check
           args: --lib --target wasm32-unknown-unknown
 
-  # Disabled due to https://github.com/emilk/egui_template/runs/1717053928?check_suite_focus=true
-  #    /usr/bin/ld: cannot find -lxcb-shape
-  # test:
-  #   name: Test Suite
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-  #         toolchain: stable
-  #         override: true
-  #     - uses: actions-rs/cargo@v1
-  #       with:
-  #         command: test
-  #         args: --lib
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - run: sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --lib
 
   fmt:
     name: Rustfmt
