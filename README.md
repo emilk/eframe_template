@@ -19,6 +19,8 @@ Start by clicking "Use this template" at https://github.com/emilk/egui_template/
 
 `cargo run --release`
 
+On Linux you need to first run `sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev`.
+
 ### Compiling for the web
 
 You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. For this you need to set up some tools. There are a few simple scripts that help you with this:
