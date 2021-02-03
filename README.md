@@ -37,7 +37,7 @@ open http://127.0.0.1:8080/
 * `start_server.sh` starts a local HTTP server so you can test before you publish
 * Open http://127.0.0.1:8080/ in a web browser to view
 
-The finished we app is found in the `docs/` folder (this is so that you can easily share it with [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)). It consists of three files:
+The finished web app is found in the `docs/` folder (this is so that you can easily share it with [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)). It consists of three files:
 
 * `index.html`: A few lines of HTML, CSS and JS that loads your app. **You need to edit this** (once) to replace `egui_template` with the name of your crate!
 * `your_crate_bg.wasm`: What the Rust code compiles to.
