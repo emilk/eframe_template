@@ -60,7 +60,7 @@ impl epi::App for TemplateApp {
             });
 
             ui.add(egui::Slider::f32(value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked {
+            if ui.button("Increment").clicked() {
                 *value += 1.0;
             }
 
@@ -75,7 +75,7 @@ impl epi::App for TemplateApp {
             // The top panel is often a good place for a menu bar:
             egui::menu::bar(ui, |ui| {
                 egui::menu::menu(ui, "File", |ui| {
-                    if ui.button("Quit").clicked {
+                    if ui.button("Quit").clicked() {
                         frame.quit();
                     }
                 });
@@ -138,11 +138,11 @@ impl Painting {
         ui.horizontal(|ui| {
             egui::stroke_ui(ui, &mut self.stroke, "Stroke");
             ui.separator();
-            if ui.button("Clear Painting").clicked {
+            if ui.button("Clear Painting").clicked() {
                 self.lines.clear();
             }
         })
-        .1
+        .response
     }
 
     pub fn ui_content(&mut self, ui: &mut egui::Ui) -> egui::Response {
@@ -156,12 +156,10 @@ impl Painting {
 
         let current_line = self.lines.last_mut().unwrap();
 
-        if response.active {
-            if let Some(mouse_pos) = ui.input().mouse.pos {
-                let canvas_pos = mouse_pos - rect.min;
-                if current_line.last() != Some(&canvas_pos) {
-                    current_line.push(canvas_pos);
-                }
+        if let Some(pointer_pos) = response.interact_pointer_pos() {
+            let canvas_pos = pointer_pos - rect.min;
+            if current_line.last() != Some(&canvas_pos) {
+                current_line.push(canvas_pos);
             }
         } else if !current_line.is_empty() {
             self.lines.push(vec![]);
