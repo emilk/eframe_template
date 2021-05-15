@@ -49,6 +49,17 @@ impl epi::App for TemplateApp {
         // Tip: a good default choice is to just keep the `CentralPanel`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
+        egui::TopPanel::top("top_panel").show(ctx, |ui| {
+            // The top panel is often a good place for a menu bar:
+            egui::menu::bar(ui, |ui| {
+                egui::menu::menu(ui, "File", |ui| {
+                    if ui.button("Quit").clicked() {
+                        frame.quit();
+                    }
+                });
+            });
+        });
+
         egui::SidePanel::left("side_panel", 200.0).show(ctx, |ui| {
             ui.heading("Side Panel");
 
@@ -69,30 +80,16 @@ impl epi::App for TemplateApp {
             });
         });
 
-        egui::TopPanel::top("top_panel").show(ctx, |ui| {
-            // The top panel is often a good place for a menu bar:
-            egui::menu::bar(ui, |ui| {
-                egui::menu::menu(ui, "File", |ui| {
-                    if ui.button("Quit").clicked() {
-                        frame.quit();
-                    }
-                });
-            });
-        });
-
         egui::CentralPanel::default().show(ctx, |ui| {
+            // The central panel the region left after adding TopPanel's and SidePanel's
+
             ui.heading("egui template");
             ui.hyperlink("https://github.com/emilk/egui_template");
-            ui.add(egui::github_link_file_line!(
+            ui.add(egui::github_link_file!(
                 "https://github.com/emilk/egui_template/blob/master/",
-                "Direct link to source code."
+                "Source code."
             ));
             egui::warn_if_debug_build(ui);
-
-            ui.separator();
-
-            ui.heading("Central Panel");
-            ui.label("The central panel the region left after adding TopPanel's and SidePanel's");
         });
 
         if false {
