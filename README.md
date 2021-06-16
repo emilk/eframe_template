@@ -15,7 +15,7 @@ Start by clicking "Use this template" at https://github.com/emilk/egui_template/
 
 `src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
 
-Make sure you are using the latest version of stable rust.
+Make sure you are using the latest version of stable rust by running `rustup update`
 
 ### Testing locally
 
