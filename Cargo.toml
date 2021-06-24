@@ -10,7 +10,7 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-eframe = "0.12.0" # Gives us egui, epi and web+native backends
+eframe = "0.13.0" # Gives us egui, epi and web+native backends
 
 serde = { version = "1", features = ["derive"], optional = true }
 

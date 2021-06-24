@@ -49,7 +49,7 @@ impl epi::App for TemplateApp {
         // Tip: a good default choice is to just keep the `CentralPanel`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
-        egui::TopPanel::top("top_panel").show(ctx, |ui| {
+        egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // The top panel is often a good place for a menu bar:
             egui::menu::bar(ui, |ui| {
                 egui::menu::menu(ui, "File", |ui| {
@@ -60,7 +60,7 @@ impl epi::App for TemplateApp {
             });
         });
 
-        egui::SidePanel::left("side_panel", 200.0).show(ctx, |ui| {
+        egui::SidePanel::left("side_panel").show(ctx, |ui| {
             ui.heading("Side Panel");
 
             ui.horizontal(|ui| {
