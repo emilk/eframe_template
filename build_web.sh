@@ -17,18 +17,18 @@ rm -f docs/${CRATE_NAME_SNAKE_CASE}_bg.wasm
 
 echo "Building rust…"
 BUILD=release
-cargo build --release -p ${CRATE_NAME} --lib --target wasm32-unknown-unknown
+cargo build --release --lib --target wasm32-unknown-unknown
 
 echo "Generating JS bindings for wasm…"
 TARGET_NAME="${CRATE_NAME_SNAKE_CASE}.wasm"
-wasm-bindgen "target/wasm32-unknown-unknown/${BUILD}/${TARGET_NAME}" \
+wasm-bindgen "target/wasm32-unknown-unknown/${BUILD}/egui_template.wasm" \
   --out-dir docs --no-modules --no-typescript
 
 # to get wasm-opt:  apt/brew/dnf install binaryen
 # echo "Optimizing wasm…"
 # wasm-opt docs/${CRATE_NAME_SNAKE_CASE}_bg.wasm -O2 --fast-math -o docs/${CRATE_NAME_SNAKE_CASE}_bg.wasm # add -g to get debug symbols
 
-echo "Finished: docs/${CRATE_NAME_SNAKE_CASE}.wasm"
+echo "Finished: docs/egui_template_bg.wasm"
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # Linux, ex: Fedora
