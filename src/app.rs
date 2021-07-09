@@ -29,7 +29,7 @@ impl epi::App for TemplateApp {
 
     /// Called by the framework to load old app state (if any).
     #[cfg(feature = "persistence")]
-    fn load(&mut self, storage: &dyn epi::Storage) {
+    fn setup(&mut self, _ctx: &egui::CtxRef, _frame: &mut epi::Frame<'_>, storage: &dyn epi::Storage) {
         *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
     }
 
