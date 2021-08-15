@@ -38,6 +38,18 @@
             transform: translate(-50%, 0%);
         }
     </style>
+    <link rel="manifest" href="./manifest.json">
+    <script>
+      // register ServiceWorker
+      window.onload = () => {
+          'use strict';
+
+          if ('serviceWorker' in navigator) {
+              navigator.serviceWorker
+                      .register('./sw.js');
+          }
+      }
+    </script>
 </head>
 
 <body>
