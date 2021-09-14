@@ -27,20 +27,23 @@ impl epi::App for TemplateApp {
         "egui template"
     }
 
-    /// Called by the framework to load old app state (if any).
-    #[cfg(feature = "persistence")]
+    /// Called once before the first frame.
     fn setup(
         &mut self,
         _ctx: &egui::CtxRef,
         _frame: &mut epi::Frame<'_>,
-        storage: Option<&dyn epi::Storage>,
+        _storage: Option<&dyn epi::Storage>,
     ) {
-        if let Some(storage) = storage {
+        // Load previous app state (if any).
+        // Note that you must enable the `persistence` feature for this to work.
+        #[cfg(feature = "persistence")]
+        if let Some(storage) = _storage {
             *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
         }
     }
 
     /// Called by the frame work to save state before shutdown.
+    /// Note that you must enable the `persistence` feature for this to work.
     #[cfg(feature = "persistence")]
     fn save(&mut self, storage: &mut dyn epi::Storage) {
         epi::set_value(storage, epi::APP_KEY, self);
