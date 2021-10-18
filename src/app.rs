@@ -24,7 +24,7 @@ impl Default for TemplateApp {
 
 impl epi::App for TemplateApp {
     fn name(&self) -> &str {
-        "egui template"
+        "eframe template"
     }
 
     /// Called once before the first frame.
@@ -83,20 +83,24 @@ impl epi::App for TemplateApp {
                 *value += 1.0;
             }
 
-            ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
-                ui.add(
-                    egui::Hyperlink::new("https://github.com/emilk/egui/").text("powered by egui"),
-                );
+            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
+                ui.horizontal(|ui| {
+                    ui.spacing_mut().item_spacing.x = 0.0;
+                    ui.label("powered by ");
+                    ui.hyperlink_to("egui", "https://github.com/emilk/egui");
+                    ui.label(" and ");
+                    ui.hyperlink_to("eframe", "https://github.com/emilk/egui/tree/master/eframe");
+                });
             });
         });
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
 
-            ui.heading("egui template");
-            ui.hyperlink("https://github.com/emilk/egui_template");
+            ui.heading("eframe template");
+            ui.hyperlink("https://github.com/emilk/eframe_template");
             ui.add(egui::github_link_file!(
-                "https://github.com/emilk/egui_template/blob/master/",
+                "https://github.com/emilk/eframe_template/blob/master/",
                 "Source code."
             ));
             egui::warn_if_debug_build(ui);
