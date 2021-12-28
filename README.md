@@ -15,7 +15,9 @@ Start by clicking "Use this template" at https://github.com/emilk/eframe_templat
 
 `src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
 
-Make sure you are using the latest version of stable rust by running `rustup update`
+Make sure you are using the latest version of stable rust by running `rustup update`.
+
+The official egui docs are at <https://docs.rs/egui>. If you prefer watching a video introduction, check out <https://www.youtube.com/watch?v=NtUkr_z7l84>. For inspiration, check out the [the egui web demo](https://emilk.github.io/egui/index.html) and follow the links in it to its source code.
 
 ### Testing locally
 
