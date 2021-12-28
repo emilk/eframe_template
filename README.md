@@ -23,11 +23,11 @@ Make sure you are using the latest version of stable rust by running `rustup upd
 
 On Linux you need to first run:
 
-`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libspeechd-dev libxkbcommon-dev libssl-dev`
+`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libspeechd-dev libxkbcommon-dev libssl-dev jq`
 
 On Fedora Rawhide you need to run:
 
-`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel`
+`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel jq`
 
 ### Compiling for the web
 
