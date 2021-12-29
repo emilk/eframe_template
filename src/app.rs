@@ -31,7 +31,7 @@ impl epi::App for TemplateApp {
     fn setup(
         &mut self,
         _ctx: &egui::CtxRef,
-        _frame: &mut epi::Frame<'_>,
+        _frame: &epi::Frame,
         _storage: Option<&dyn epi::Storage>,
     ) {
         // Load previous app state (if any).
@@ -51,7 +51,7 @@ impl epi::App for TemplateApp {
 
     /// Called each time the UI needs repainting, which may be many times per second.
     /// Put your widgets into a `SidePanel`, `TopPanel`, `CentralPanel`, `Window` or `Area`.
-    fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
+    fn update(&mut self, ctx: &egui::CtxRef, frame: &epi::Frame) {
         let Self { label, value } = self;
 
         // Examples of how to create different panels and windows.
@@ -62,7 +62,7 @@ impl epi::App for TemplateApp {
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // The top panel is often a good place for a menu bar:
             egui::menu::bar(ui, |ui| {
-                egui::menu::menu(ui, "File", |ui| {
+                ui.menu_button("File", |ui| {
                     if ui.button("Quit").clicked() {
                         frame.quit();
                     }

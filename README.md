@@ -25,11 +25,13 @@ The official egui docs are at <https://docs.rs/egui>. If you prefer watching a v
 
 On Linux you need to first run:
 
-`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libspeechd-dev libxkbcommon-dev libssl-dev jq`
+`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libspeechd-dev libxkbcommon-dev libssl-dev`
 
 On Fedora Rawhide you need to run:
 
-`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel jq`
+`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel`
+
+For running the `build_web.sh` script you also need to install `jq` and `binaryena` with your packet manager of choice.
 
 ### Compiling for the web
 

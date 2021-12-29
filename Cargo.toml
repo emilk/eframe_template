@@ -1,8 +1,9 @@
 [package]
 name = "eframe_template"
 version = "0.1.0"
-authors = ["Emil Ernerfeldt <emilernerfeldt@gmail.com>"]
-edition = "2018"
+authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+edition = "2021"
+rust-version = "1.56"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -10,7 +11,7 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-eframe = "0.15.0" # Gives us egui, epi and web+native backends
+eframe = "0.16.0" # Gives us egui, epi and web+native backends
 
 serde = { version = "1", features = ["derive"], optional = true }
 
