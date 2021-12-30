@@ -29,7 +29,7 @@ On Linux you need to first run:
 
 On Fedora Rawhide you need to run:
 
-`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel`
+`dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel libxcb-devel`
 
 For running the `build_web.sh` script you also need to install `jq` and `binaryena` with your packet manager of choice.
 
