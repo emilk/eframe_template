@@ -13,13 +13,25 @@ You can compile your app natively or for the web, and share it using Github Page
 
 Start by clicking "Use this template" at https://github.com/emilk/eframe_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 
-`src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
+Change the name of the crate: Chose a good name for your project, and change the name to it in:
+* `Cargo.toml`
+    * Update the `name` and `authors`
+* `main.rs`
+* `docs/index.html`
+    * Change the `<title>`
+    * Change the `<script src=…` line from `eframe_template.js` to `your_crate.js`
+    * Change the `wasm_bindgen(…` line from `eframe_template_bg.wasm` to `your_crate_bg.wasm` (note the `_bg`!)
+* Remove the web build of the old name: `rm docs/eframe_template*`
 
-Make sure you are using the latest version of stable rust by running `rustup update`.
+### Learning about egui
+
+`src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
 
 The official egui docs are at <https://docs.rs/egui>. If you prefer watching a video introduction, check out <https://www.youtube.com/watch?v=NtUkr_z7l84>. For inspiration, check out the [the egui web demo](https://emilk.github.io/egui/index.html) and follow the links in it to its source code.
 
 ### Testing locally
+
+Make sure you are using the latest version of stable rust by running `rustup update`.
 
 `cargo run --release`
 
@@ -34,6 +46,8 @@ On Fedora Rawhide you need to run:
 For running the `build_web.sh` script you also need to install `jq` and `binaryena` with your packet manager of choice.
 
 ### Compiling for the web
+
+Make sure you are using the latest version of stable rust by running `rustup update`.
 
 You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. For this you need to set up some tools. There are a few simple scripts that help you with this:
 
@@ -59,4 +73,6 @@ You can test the template app at <https://emilk.github.io/eframe_template/>.
 
 ## Updating egui
 
-As of 2021, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
+As of 2022, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
+
+When updating `egui` and `eframe` it is recommended you do so one version at the time, and read about the changes in [the egui changelog](https://github.com/emilk/egui/blob/master/CHANGELOG.md) and [eframe changelog](https://github.com/emilk/egui/blob/master/eframe/CHANGELOG.md).
