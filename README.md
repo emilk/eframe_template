@@ -43,7 +43,7 @@ On Fedora Rawhide you need to run:
 
 `dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel libxcb-devel`
 
-For running the `build_web.sh` script you also need to install `jq` and `binaryena` with your packet manager of choice.
+For running the `build_web.sh` script you also need to install `jq` and `binaryen` with your packet manager of choice.
 
 ### Compiling for the web
 
