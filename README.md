@@ -21,6 +21,9 @@ Change the name of the crate: Chose a good name for your project, and change the
     * Change the `<title>`
     * Change the `<script src=…` line from `eframe_template.js` to `your_crate.js`
     * Change the `wasm_bindgen(…` line from `eframe_template_bg.wasm` to `your_crate_bg.wasm` (note the `_bg`!)
+* `docs/sw.js`
+    * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
+    * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 * Remove the web build of the old name: `rm docs/eframe_template*`
 
 ### Learning about egui
