@@ -50,7 +50,7 @@ cargo build -p ${CRATE_NAME} --release --lib --target wasm32-unknown-unknown
 TARGET=`cargo metadata --format-version=1 | jq --raw-output .target_directory`
 
 echo "Generating JS bindings for wasm…"
-TARGET_NAME="${CRATE_NAME_SNAKE_CASE}.wasm"
+TARGET_NAME="${CRATE_NAME_SNAKE_CASE}_lib.wasm"
 wasm-bindgen "${TARGET}/wasm32-unknown-unknown/${BUILD}/${TARGET_NAME}" \
   --out-dir docs --no-modules --no-typescript
 
