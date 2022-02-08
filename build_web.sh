@@ -47,14 +47,14 @@ BUILD=release
 cargo build -p "${CRATE_NAME}" --release --lib --target wasm32-unknown-unknown
 
 # Get the output directory (in the workspace it is in another location)
-TARGET=`cargo metadata --format-version=1 | jq --raw-output .target_directory`
+TARGET=$(cargo metadata --format-version=1 | jq --raw-output .target_directory)
 
 echo "Generating JS bindings for wasm…"
 TARGET_NAME="${CRATE_NAME_SNAKE_CASE}.wasm"
 wasm-bindgen "${TARGET}/wasm32-unknown-unknown/${BUILD}/${TARGET_NAME}" \
   --out-dir docs --no-modules --no-typescript
 
-if [ "${FAST}" = false ]; then
+if [[ "${FAST}" == false ]]; then
   echo "Optimizing wasm…"
   # to get wasm-opt:  apt/brew/dnf install binaryen
   wasm-opt "docs/${CRATE_NAME}_bg.wasm" -O2 --fast-math -o "docs/${CRATE_NAME}_bg.wasm" # add -g to get debug symbols
@@ -62,7 +62,7 @@ fi
 
 echo "Finished: docs/${CRATE_NAME_SNAKE_CASE}.wasm"
 
-if [ "${OPEN}" = true ]; then
+if [[ "${OPEN}" == true ]]; then
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux, ex: Fedora
     xdg-open http://localhost:8080/index.html
