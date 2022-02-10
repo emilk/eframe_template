@@ -15,7 +15,10 @@ Start by clicking "Use this template" at https://github.com/emilk/eframe_templat
 
 Change the name of the crate: Chose a good name for your project, and change the name to it in:
 * `Cargo.toml`
-    * Update the `name` and `authors`
+    * Change the `package.name` from `eframe_template` to `your_crate`
+    * Change the `package.authors`
+    * Change the `package.default-run` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
+    * Change the `bin.name` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
 * `main.rs`
 * `docs/index.html`
     * Change the `<title>`
