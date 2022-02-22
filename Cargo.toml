@@ -11,7 +11,7 @@ rust-version = "1.56"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-eframe = "0.16.0" # Gives us egui, epi and web+native backends
+eframe = "0.17.0" # Gives us egui, epi and web+native backends
 
 serde = { version = "1", features = ["derive"], optional = true }
 
@@ -29,3 +29,7 @@ opt-level = 2 # fast and small wasm
 
 # If you fork https://github.com/emilk/egui you can test with:
 # eframe = { path = "../egui/eframe" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1.6"
+tracing-wasm = "0.2"
