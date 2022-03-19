@@ -7,6 +7,11 @@
 
 <head>
     <title>eframe template</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#404040">
+    <link rel="apple-touch-icon" href="/icon_ios_touch_192.png">
+
     <style>
         html {
             /* Remove touch delay: */
@@ -150,6 +155,16 @@
                     Make sure you use a modern browser with WebGL and WASM enabled.
                 </p>`;
         }
+    </script>
+
+    <!--Register Service Worker-->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+
     </script>
 </body>
 
