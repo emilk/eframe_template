@@ -17,6 +17,7 @@ Change the name of the crate: Chose a good name for your project, and change the
 * `Cargo.toml`
     * Update the `name` and `authors`
 * `main.rs`
+    * Change the `let app =…` line from `eframe_template::TemplateApp` to `your_crate::TemplateApp`
 * `docs/index.html`
     * Change the `<title>`
     * Change the `<script src=…` line from `eframe_template.js` to `your_crate.js`
@@ -54,7 +55,7 @@ Make sure you are using the latest version of stable rust by running `rustup upd
 
 You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. For this you need to set up some tools. There are a few simple scripts that help you with this:
 
-``` sh
+```sh
 ./setup_web.sh
 ./build_web.sh
 ./start_server.sh
