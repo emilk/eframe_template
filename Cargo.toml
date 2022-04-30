@@ -17,8 +17,8 @@ crate-type = ["cdylib", "rlib"]
 
 
 [dependencies]
-egui = "0.17.0"
-eframe = { version = "0.17.0", features = ["persistence"] }
+egui = "0.18.0"
+eframe = { version = "0.18.0", features = ["persistence"] }
 serde = { version = "1", features = ["derive"] } # You only need this if you want app persistence
 
 # native:
@@ -38,8 +38,8 @@ opt-level = 2 # fast and small wasm
 [patch.crates-io]
 
 # If you want to use the bleeding edge version of egui and eframe:
-egui = { git = "https://github.com/emilk/egui", branch = "master" }
-eframe = { git = "https://github.com/emilk/egui", branch = "master" }
+# egui = { git = "https://github.com/emilk/egui", branch = "master" }
+# eframe = { git = "https://github.com/emilk/egui", branch = "master" }
 
 # If you fork https://github.com/emilk/egui you can test with:
 # egui = { path = "../egui/egui" }

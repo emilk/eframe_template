@@ -397,16 +397,25 @@ checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
 name = "eframe"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "53fa97a8188c36261ea162e625dbb23599f67b60777b462b834fe38161b81dce"
 dependencies = [
+ "bytemuck",
+ "directories-next",
  "egui",
  "egui-winit",
  "egui_glow",
- "egui_web",
- "epi",
  "glow",
  "glutin",
+ "js-sys",
+ "percent-encoding",
+ "ron",
+ "serde",
+ "tracing",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
  "winit",
 ]
 
@@ -424,8 +433,9 @@ dependencies = [
 
 [[package]]
 name = "egui"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c4be5abc5b868ade7db0caf8e96f2c3ddccb243f7e93d382cf5d0e43f85ae86"
 dependencies = [
  "ahash",
  "epaint",
@@ -437,8 +447,9 @@ dependencies = [
 
 [[package]]
 name = "egui-winit"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b040afd583fd95a9b9578d4399214a13d948ed26bc0ff7cc0104502501f34e68"
 dependencies = [
  "arboard",
  "egui",
@@ -451,12 +462,12 @@ dependencies = [
 
 [[package]]
 name = "egui_glow"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "54cbe18dacf32b29a015d1d2eaa0ee803f1a5468def004f956864a4b89e7d1e5"
 dependencies = [
  "bytemuck",
  "egui",
- "egui-winit",
  "glow",
  "memoffset",
  "tracing",
@@ -465,26 +476,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "egui_web"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
-dependencies = [
- "bytemuck",
- "egui",
- "egui_glow",
- "epi",
- "js-sys",
- "percent-encoding",
- "tracing",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
-]
-
-[[package]]
 name = "emath"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c223f58c7e38abe1770f367b969f1b3fbd4704b67666bcb65dbb1adb0980ba72"
 dependencies = [
  "bytemuck",
  "serde",
@@ -492,8 +487,9 @@ dependencies = [
 
 [[package]]
 name = "epaint"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4dfd8ef097bd349762fcf1c7a5ef2f0e686f9919253b7a298827d6ff9d401dee"
 dependencies = [
  "ab_glyph",
  "ahash",
@@ -503,19 +499,6 @@ dependencies = [
  "nohash-hasher",
  "parking_lot 0.12.0",
  "serde",
-]
-
-[[package]]
-name = "epi"
-version = "0.17.0"
-source = "git+https://github.com/emilk/egui?branch=master#18d529203a1f204e2275490c21ef99f5d85935e1"
-dependencies = [
- "directories-next",
- "egui",
- "glow",
- "ron",
- "serde",
- "tracing",
 ]
 
 [[package]]
@@ -1658,9 +1641,9 @@ dependencies = [
 
 [[package]]
 name = "webbrowser"
-version = "0.6.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9c28b6b6a78440b02647358625e3febc90724126480b9da6a967b5f674b3554"
+checksum = "fc6a3cffdb686fbb24d9fb8f03a213803277ed2300f11026a3afe1f108dc021b"
 dependencies = [
  "jni",
  "ndk-glue 0.6.2",
