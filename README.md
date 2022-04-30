@@ -20,7 +20,7 @@ Change the name of the crate: Chose a good name for your project, and change the
     * Change the `package.default-run` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
     * Change the `bin.name` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
 * `main.rs`
-    * Change the `let app =…` line from `eframe_template::TemplateApp` to `your_crate::TemplateApp`
+    * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
 * `docs/index.html`
     * Change the `<title>`
     * Change the `<script src=…` line from `eframe_template.js` to `your_crate.js`

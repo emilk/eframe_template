@@ -1,14 +1,12 @@
-use eframe::{egui, epi};
-
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
-#[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = "persistence", serde(default))] // if we add new fields, give them default values when deserializing old state
+#[derive(serde::Deserialize, serde::Serialize)]
+#[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct TemplateApp {
     // Example stuff:
     label: String,
 
     // this how you opt-out of serialization of a member
-    #[cfg_attr(feature = "persistence", serde(skip))]
+    #[serde(skip)]
     value: f32,
 }
 
@@ -22,36 +20,31 @@ impl Default for TemplateApp {
     }
 }
 
-impl epi::App for TemplateApp {
-    fn name(&self) -> &str {
-        "eframe template"
-    }
-
+impl TemplateApp {
     /// Called once before the first frame.
-    fn setup(
-        &mut self,
-        _ctx: &egui::Context,
-        _frame: &epi::Frame,
-        _storage: Option<&dyn epi::Storage>,
-    ) {
+    pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
+        // This is also where you can customized the look at feel of egui using
+        // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
+
         // Load previous app state (if any).
         // Note that you must enable the `persistence` feature for this to work.
-        #[cfg(feature = "persistence")]
-        if let Some(storage) = _storage {
-            *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
+        if let Some(storage) = cc.storage {
+            return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
         }
-    }
 
+        Default::default()
+    }
+}
+
+impl eframe::App for TemplateApp {
     /// Called by the frame work to save state before shutdown.
-    /// Note that you must enable the `persistence` feature for this to work.
-    #[cfg(feature = "persistence")]
-    fn save(&mut self, storage: &mut dyn epi::Storage) {
-        epi::set_value(storage, epi::APP_KEY, self);
+    fn save(&mut self, storage: &mut dyn eframe::Storage) {
+        eframe::set_value(storage, eframe::APP_KEY, self);
     }
 
     /// Called each time the UI needs repainting, which may be many times per second.
     /// Put your widgets into a `SidePanel`, `TopPanel`, `CentralPanel`, `Window` or `Area`.
-    fn update(&mut self, ctx: &egui::Context, frame: &epi::Frame) {
+    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         let Self { label, value } = self;
 
         // Examples of how to create different panels and windows.
