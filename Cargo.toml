@@ -15,26 +15,32 @@ path = "src/main.rs"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+
 [dependencies]
-eframe = "0.17.0" # Gives us egui, epi and web+native backends
+egui = "0.17.0"
+eframe = { version = "0.17.0", features = ["persistence"] }
+serde = { version = "1", features = ["derive"] } # You only need this if you want app persistence
 
-serde = { version = "1", features = ["derive"], optional = true }
+# native:
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tracing-subscriber = "0.3"
 
-[features]
-default = []
-persistence = ["eframe/persistence", "serde"] # Enable if you want to persist app state on shutdown
+# web:
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1.6"
+tracing-wasm = "0.2"
+
 
 [profile.release]
 opt-level = 2 # fast and small wasm
 
+
 [patch.crates-io]
 
-# If you want to use the bleeding edge version of `egui`:
-# eframe = { git = "https://github.com/emilk/egui", branch = "master" }
+# If you want to use the bleeding edge version of egui and eframe:
+egui = { git = "https://github.com/emilk/egui", branch = "master" }
+eframe = { git = "https://github.com/emilk/egui", branch = "master" }
 
 # If you fork https://github.com/emilk/egui you can test with:
+# egui = { path = "../egui/egui" }
 # eframe = { path = "../egui/eframe" }
-
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-console_error_panic_hook = "0.1.6"
-tracing-wasm = "0.2"
