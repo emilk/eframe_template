@@ -50,7 +50,7 @@ SET BUILD=release
 cargo build -p %CRATE_NAME% --release --lib --target wasm32-unknown-unknown
 
 @REM Get the output directory (in the workspace it is in another location)
-FOR /F %%i IN ('cargo metadata --format-version=1 ^| jq --raw-output .target_directory') DO SET TARGET=%%i
+FOR /F "delims=" %%i IN ('cargo metadata --format-version=1 ^| jq --raw-output .target_directory') DO SET TARGET=%%i
 
 echo Generating JS bindings for wasm...
 SET TARGET_NAME=%CRATE_NAME_SNAKE_CASE%.wasm
