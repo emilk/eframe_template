@@ -7,19 +7,19 @@ script_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 cd "$script_path"
 
 OPEN=false
-FAST=false
+OPTIMIZE=false
 
 while test $# -gt 0; do
   case "$1" in
     -h|--help)
-      echo "build_web.sh [--fast] [--open]"
-      echo "  --fast: skip optimization step"
+      echo "build_web.sh [--optimize] [--open]"
+      echo "  --optimize: enable optimization step"
       echo "  --open: open the result in a browser"
       exit 0
       ;;
-    --fast)
+    -O|--optimize)
       shift
-      FAST=true
+      OPTIMIZE=true
       ;;
     --open)
       shift
@@ -55,7 +55,7 @@ TARGET_NAME="${CRATE_NAME_SNAKE_CASE}.wasm"
 WASM_PATH="${TARGET}/wasm32-unknown-unknown/${BUILD}/${TARGET_NAME}"
 wasm-bindgen "${WASM_PATH}" --out-dir docs --no-modules --no-typescript
 
-if [[ "${FAST}" == false ]]; then
+if [[ "${OPTIMIZE}" == true ]]; then
   echo "Optimizing wasm…"
   # to get wasm-opt:  apt/brew/dnf install binaryen
   wasm-opt "docs/${CRATE_NAME}_bg.wasm" -O2 --fast-math -o "docs/${CRATE_NAME}_bg.wasm" # add -g to get debug symbols

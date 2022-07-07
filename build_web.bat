@@ -4,7 +4,7 @@ SET script_path=%~dp0
 cd %script_path%
 
 SET OPEN=0
-SET FAST=0
+SET OPTIMIZE=0
 
 :do_while
   IF (%1) == () GOTO end_while
@@ -12,8 +12,8 @@ SET FAST=0
   IF %1 == -h GOTO print_help
   IF %1 == --help GOTO print_help
 
-  IF %1 == --fast (
-    SET FAST=1
+  IF %1 == --optimize (
+    SET OPTIMIZE=1
     SHIFT
     GOTO do_while
   )
@@ -56,7 +56,7 @@ echo Generating JS bindings for wasm...
 SET TARGET_NAME=%CRATE_NAME_SNAKE_CASE%.wasm
 wasm-bindgen "%TARGET%\wasm32-unknown-unknown\%BUILD%\%TARGET_NAME%" --out-dir "docs" --no-modules --no-typescript
 
-IF %FAST% == 0 (
+IF %OPTIMIZE% == 1 (
   echo Optimizing wasm...
   @REM to get wasm-opt:  apt/brew/dnf install binaryen
   @REM add -g to get debug symbols :
@@ -70,8 +70,8 @@ IF %OPEN% == 1 start http://localhost:8080/index.html
 GOTO end_program
 
 :print_help
-echo build_web.sh [--fast] [--open]
-echo   --fast: skip optimization step
+echo build_web.sh [--optimize] [--open]
+echo   --optimize: optimize the generated WASM for performance
 echo   --open: open the result in a browser
 GOTO end_program
 
