@@ -54,6 +54,8 @@ For running the `build_web.sh` script you also need to install `jq` and `binarye
 
 ### Compiling for the web
 
+Install [jq](https://stedolan.github.io/jq/download/).
+
 Make sure you are using the latest version of stable rust by running `rustup update`.
 
 You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. For this you need to set up some tools. There are a few simple scripts that help you with this:
