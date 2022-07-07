@@ -80,6 +80,10 @@ The finished web app is found in the `docs/` folder (this is so that you can eas
 
 You can test the template app at <https://emilk.github.io/eframe_template/>.
 
+### Web testing/development
+
+Open `index.html#dev` to disable caching, which makes development easier.
+
 ## Updating egui
 
 As of 2022, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.

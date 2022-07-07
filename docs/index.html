@@ -159,7 +159,8 @@
 
     <!--Register Service Worker-->
     <script>
-        if ('serviceWorker' in navigator) {
+        // We disable caching during development so that we always view the latest version.
+        if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js');
             });
