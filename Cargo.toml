@@ -17,18 +17,18 @@ crate-type = ["cdylib", "rlib"]
 
 
 [dependencies]
-egui = "0.18.0"
+egui = "0.18.1"
 eframe = { version = "0.18.0", features = ["persistence"] }
-serde = { version = "1", features = ["derive"] } # You only need this if you want app persistence
+serde = { version = "1.0.138", features = ["derive"] } # You only need this if you want app persistence
 
 # native:
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-tracing-subscriber = "0.3"
+tracing-subscriber = "0.3.14"
 
 # web:
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-console_error_panic_hook = "0.1.6"
-tracing-wasm = "0.2"
+console_error_panic_hook = "0.1.7"
+tracing-wasm = "0.2.1"
 
 
 [profile.release]
