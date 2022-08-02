@@ -31,7 +31,7 @@ while test $# -gt 0; do
   esac
 done
 
-# ./setup_web.sh # <- call this first!
+./setup_web.sh
 
 CRATE_NAME_SNAKE_CASE="${CRATE_NAME//-/_}" # for those who name crates with-kebab-case
 
