@@ -7,10 +7,10 @@
 
 <head>
     <title>eframe template</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#404040">
-    <link rel="apple-touch-icon" href="/icon_ios_touch_192.png">
+    <link rel="apple-touch-icon" href="icon_ios_touch_192.png">
 
     <style>
         html {
@@ -162,7 +162,7 @@
         // We disable caching during development so that we always view the latest version.
         if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js');
+                navigator.serviceWorker.register('sw.js');
             });
         }
 
