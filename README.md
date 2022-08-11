@@ -15,20 +15,15 @@ Start by clicking "Use this template" at https://github.com/emilk/eframe_templat
 
 Change the name of the crate: Chose a good name for your project, and change the name to it in:
 * `Cargo.toml`
-    * Change the `package.name` from `eframe_template` to `your_crate`
+    * Change the `package.name` from `eframe_template` to `your_crate`.
     * Change the `package.authors`
-    * Change the `package.default-run` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
-    * Change the `bin.name` from `eframe_template_bin` to `your_crate_bin` (note the `_bin`!)
 * `main.rs`
     * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
-* `docs/index.html`
-    * Change the `<title>`
-    * Change the `<script src=…` line from `eframe_template.js` to `your_crate.js`
-    * Change the `wasm_bindgen(…` line from `eframe_template_bg.wasm` to `your_crate_bg.wasm` (note the `_bg`!)
-* `docs/sw.js`
-    * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
-    * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
-* Remove the web build of the old name: `rm docs/eframe_template*`
+* `index.html`
+    * Chage the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
+* `assets/sw.js`
+  * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
+  * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 
 ### Learning about egui
 
@@ -50,37 +45,28 @@ On Fedora Rawhide you need to run:
 
 `dnf install clang clang-devel clang-tools-extra speech-dispatcher-devel libxkbcommon-devel pkg-config openssl-devel libxcb-devel`
 
-For running the `build_web.sh` script you also need to install `jq` and `binaryen` with your packet manager of choice.
+### Web Locally
 
-### Compiling for the web
+You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. 
 
-Install [jq](https://stedolan.github.io/jq/download/).
+We use [Trunk](https://trunkrs.dev/) to build for web target.
+1. Install Trunk with `cargo install --locked trunk`. 
+2. run `trunk serve` to build and serve on `http://127.0.0.1:8080`. will rebuild automatically if you edit the project. 
+3. open `http://127.0.0.1:8080/index.html#dev` in a browser. see the warning below.
 
-Make sure you are using the latest version of stable rust by running `rustup update`.
+> `assets/sw.js` script will try to cache our app, and loads the cached version when it cannot connect to server allowing your app to work offline (like PWA).
+> appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds during development.
 
-You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. For this you need to set up some tools. There are a few simple scripts that help you with this:
-
-```sh
-./setup_web.sh
-./start_server.sh
-./build_web.sh --optimize --open
-```
-
-* `setup_web.sh` installs the tools required to build for web
-* `start_server.sh` starts a local HTTP server so you can test before you publish
-* `build_web.sh` compiles your code to WASM and puts it in the `docs/` folder (see below) and `--open` opens the result in your default browser.
-
-The finished web app is found in the `docs/` folder (this is so that you can easily share it with [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)). It consists of three files:
-
-* `index.html`: A few lines of HTML, CSS and JS that loads your app. **You need to edit this** (once) to replace `eframe_template` with the name of your crate!
-* `your_crate_bg.wasm`: What the Rust code compiles to.
-* `your_crate.js`: Auto-generated binding between Rust and JS.
+### Web Deploy
+1. Just run `trunk build --release`.
+2. It will generate a `dist` directory as a "static html" website
+3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+4. we already provide a workflow that auto-deploys our app to github pages if you enable it. 
+> To enable Github Pages, you need to go to Respository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root). 
+> 
+> If `gh-pages` is not availabe in `Source`, just create and push a branch called `gh-pages` and it should be available. 
 
 You can test the template app at <https://emilk.github.io/eframe_template/>.
-
-### Web testing/development
-
-Open `index.html#dev` to disable caching, which makes development easier.
 
 ## Updating egui
 
