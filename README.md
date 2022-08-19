@@ -47,11 +47,11 @@ On Fedora Rawhide you need to run:
 
 ### Web Locally
 
-You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page. 
+You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page.
 
 We use [Trunk](https://trunkrs.dev/) to build for web target.
-1. Install Trunk with `cargo install --locked trunk`. 
-2. run `trunk serve` to build and serve on `http://127.0.0.1:8080`. will rebuild automatically if you edit the project. 
+1. Install Trunk with `cargo install --locked trunk`.
+2. run `trunk serve` to build and serve on `http://127.0.0.1:8080`. will rebuild automatically if you edit the project.
 3. open `http://127.0.0.1:8080/index.html#dev` in a browser. see the warning below.
 
 > `assets/sw.js` script will try to cache our app, and loads the cached version when it cannot connect to server allowing your app to work offline (like PWA).
@@ -61,10 +61,10 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 1. Just run `trunk build --release`.
 2. It will generate a `dist` directory as a "static html" website
 3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
-4. we already provide a workflow that auto-deploys our app to github pages if you enable it. 
-> To enable Github Pages, you need to go to Respository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root). 
-> 
-> If `gh-pages` is not availabe in `Source`, just create and push a branch called `gh-pages` and it should be available. 
+4. we already provide a workflow that auto-deploys our app to GitHub pages if you enable it.
+> To enable Github Pages, you need to go to Repository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root).
+>
+> If `gh-pages` is not available in `Source`, just create and push a branch called `gh-pages` and it should be available.
 
 You can test the template app at <https://emilk.github.io/eframe_template/>.
 

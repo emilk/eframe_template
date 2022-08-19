@@ -99,7 +99,7 @@ jobs:
           toolchain: 1.61.0
           target: wasm32-unknown-unknown
           override: true
-      - name: Downlaod and Install Trunk binary
+      - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
-      - name: Build 
-        run: ./trunk build  
+      - name: Build
+        run: ./trunk build
