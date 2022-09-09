@@ -18,13 +18,15 @@
             # Rust
             rust-bin.stable.latest.default
             trunk
+
             # misc. libraries
             openssl
             pkgconfig
-            fontconfig
+
             # GUI libs
             libxkbcommon
             libGL
+            fontconfig
 
             # wayland libraries
             wayland
