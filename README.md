@@ -13,17 +13,20 @@ You can compile your app natively or for the web, and share it using Github Page
 
 Start by clicking "Use this template" at https://github.com/emilk/eframe_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 
-Change the name of the crate: Chose a good name for your project, and change the name to it in:
+Change the name of the crate: Choose a good name for your project, and change the name to it in:
 * `Cargo.toml`
     * Change the `package.name` from `eframe_template` to `your_crate`.
     * Change the `package.authors`
 * `main.rs`
     * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
 * `index.html`
-    * Chage the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
+    * Change the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
 * `assets/sw.js`
   * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
   * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
+
+Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particulary useful if you clone this repository outside GitHub and hence cannot make use of its
+templating function.
 
 ### Learning about egui
 
