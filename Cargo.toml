@@ -1,7 +1,7 @@
 [package]
-name = "eframe_template"
+name = "schedule_watche"
 version = "0.1.0"
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+authors = ["oreno"]
 edition = "2021"
 rust-version = "1.60"
 
