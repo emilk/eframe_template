@@ -1,0 +1,64 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'schedule_watche'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=schedule_watche"
+                ],
+                "filter": {
+                    "name": "schedule_watche",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'schedule_watche'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=schedule_watche",
+                    "--package=schedule_watche"
+                ],
+                "filter": {
+                    "name": "schedule_watche",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'schedule_watche'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=schedule_watche",
+                    "--package=schedule_watche"
+                ],
+                "filter": {
+                    "name": "schedule_watche",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
