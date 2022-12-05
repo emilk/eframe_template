@@ -3,14 +3,17 @@ name = "eframe_template"
 version = "0.1.0"
 authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
 edition = "2021"
-rust-version = "1.60"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+rust-version = "1.65"
 
 
 [dependencies]
 egui = "0.19.0"
-eframe = { version = "0.19.0", features = ["persistence"] }
+eframe = { version = "0.19.0", features = [
+    "accesskit",     # Make egui comptaible with screen readers. NOTE: adds a lot of dependencies.
+    "default_fonts", # Embed the default egui fonts.
+    "glow",          # Use the glow rendering backend. Alternative: "wgpu".
+    "persistence",   # Enable restoring app state when restarting the app.
+] }
 
 # You only need serde if you want app persistence:
 serde = { version = "1", features = ["derive"] }
