@@ -35,7 +35,6 @@ pub async fn main_js() {
     .expect("failed to start eframe");
 }
 
-// trunk doesn't support async main, see https://github.com/thedodd/trunk/issues/466
+// trunk needs a dummy main function to call
 #[cfg(target_arch = "wasm32")]
-
 fn main() {}
