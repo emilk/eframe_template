@@ -17,7 +17,8 @@ fn main() {
 
 // when compiling to web using trunk.
 #[cfg(target_arch = "wasm32")]
-fn main() {
+#[wasm_bindgen::prelude::wasm_bindgen(start)]
+pub async fn main_js() {
     // Make sure panics are logged using `console.error`.
     console_error_panic_hook::set_once();
 
@@ -30,5 +31,11 @@ fn main() {
         web_options,
         Box::new(|cc| Box::new(eframe_template::TemplateApp::new(cc))),
     )
+    .await
     .expect("failed to start eframe");
 }
+
+// trunk doesn't support async main, see https://github.com/thedodd/trunk/issues/466
+#[cfg(target_arch = "wasm32")]
+
+fn main() {}
