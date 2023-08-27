@@ -21,9 +21,6 @@ Change the name of the crate: Chose a good name for your project, and change the
     * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
 * `index.html`
     * Change the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
-* `assets/sw.js`
-  * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
-  * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 
 ### Learning about egui
 

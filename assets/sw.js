@@ -23,3 +23,38 @@ self.addEventListener('fetch', function (e) {
     })
   );
 });
+
+/* Clear cache on version updates */
+self.addEventListener("activate", function(e) {
+  e.waitUntil(
+    caches.open(cacheName)
+    .then(cache => {
+      return cache.match("/version"); // Try to find the stored version in the cache
+    })
+    .then(response => {
+      if (response) {
+        return response.text();
+      } else {
+        return null; // No stored version found in the cache
+      }
+    })
+    .then(storedVersion => {
+      return fetch("/version")
+        .then(response => response.text())
+        .then(backendVersion => {
+          if (backendVersion !== storedVersion) {
+            return caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => {
+                  return caches.delete(cacheName);
+                })
+              );
+            });
+          }
+        });
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    })
+  );
+});
