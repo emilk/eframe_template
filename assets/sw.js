@@ -54,7 +54,7 @@ self.addEventListener("activate", function(e) {
         });
     })
     .catch(error => {
-      console.error("Error:", error);
+      console.error("Error: ", error);
     })
   );
 });
