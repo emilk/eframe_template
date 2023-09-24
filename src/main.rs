@@ -31,5 +31,14 @@ fn main() {
             )
             .await
             .expect("failed to start eframe");
+        // Loading done - hide the loading text
+        let hide_loading_text_if_exists = || -> Option<()> {
+            web_sys::window()?
+                .document()?
+                .get_element_by_id("loading_text")?
+                .remove();
+            Some(())
+        };
+        let _ = hide_loading_text_if_exists();
     });
 }
