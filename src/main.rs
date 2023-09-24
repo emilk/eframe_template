@@ -37,9 +37,9 @@ fn main() {
             Ok(_) => {
                 loading_text.map(|e| e.remove());
             }
-            Err(_) => {
+            Err(e) => {
                 loading_text.map(|e| e.set_inner_html("<p> the app has crashed </p"));
-                panic!("failed to start eframe");
+                panic!("failed to start eframe: {e:?}");
             }
         }
     });
