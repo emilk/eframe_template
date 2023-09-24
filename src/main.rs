@@ -23,22 +23,24 @@ fn main() {
     let web_options = eframe::WebOptions::default();
 
     wasm_bindgen_futures::spawn_local(async {
-        eframe::WebRunner::new()
+        let start_result = eframe::WebRunner::new()
             .start(
                 "the_canvas_id", // hardcode it
                 web_options,
                 Box::new(|cc| Box::new(eframe_template::TemplateApp::new(cc))),
             )
-            .await
-            .expect("failed to start eframe");
-        // Loading done - hide the loading text
-        let hide_loading_text_if_exists = || -> Option<()> {
-            web_sys::window()?
-                .document()?
-                .get_element_by_id("loading_text")?
-                .remove();
-            Some(())
-        };
-        let _ = hide_loading_text_if_exists();
+            .await;
+        let loading_text = web_sys::window()
+            .and_then(|w| w.document())
+            .and_then(|d| d.get_element_by_id("loading_text"));
+        match start_result {
+            Ok(_) => {
+                loading_text.map(|e| e.remove());
+            }
+            Err(_) => {
+                loading_text.map(|e| e.set_inner_html("<p> the app has crashed </p"));
+                panic!("failed to start eframe");
+            }
+        }
     });
 }

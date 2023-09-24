@@ -114,11 +114,14 @@
                 transform: rotate(360deg);
             }
         }
-
     </style>
 </head>
 
 <body>
+    <!-- The WASM code will resize the canvas dynamically -->
+    <!-- the id is hardcoded in main.rs . so, make sure both match. -->
+    <canvas id="the_canvas_id"></canvas>
+
     <!-- the loading spinner will be removed in main.rs -->
     <div class="centered" id="loading_text">
         <p style="font-size:16px">
@@ -126,10 +129,6 @@
         </p>
         <div class="lds-dual-ring"></div>
     </div>
-
-    <!-- The WASM code will resize the canvas dynamically -->
-    <!-- the id is hardcoded in main.rs . so, make sure both match. -->
-    <canvas id="the_canvas_id"></canvas>
 
     <!--Register Service Worker. this will cache the wasm / js scripts for offline use (for PWA functionality). -->
     <!-- Force refresh (Ctrl + F5) to load the latest files instead of cached files  -->
