@@ -6,7 +6,18 @@
 fn main() -> eframe::Result<()> {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
+    // Load icon
+    let icon = image::open("assets/favicon.ico")
+        .expect("Failed to open icon path")
+        .to_rgba8();
+    let (icon_width, icon_height) = icon.dimensions();
+
     let native_options = eframe::NativeOptions {
+        icon_data: Some(eframe::IconData {
+            rgba: icon.into_raw(),
+            width: icon_width,
+            height: icon_height,
+        }),
         initial_window_size: Some([400.0, 300.0].into()),
         min_window_size: Some([300.0, 220.0].into()),
         ..Default::default()
