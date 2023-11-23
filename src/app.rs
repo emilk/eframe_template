@@ -50,11 +50,12 @@ impl eframe::App for TemplateApp {
             // The top panel is often a good place for a menu bar:
 
             egui::menu::bar(ui, |ui| {
-                #[cfg(not(target_arch = "wasm32"))] // no File->Quit on web pages!
-                {
+                // NOTE: no File->Quit on web pages!
+                let is_web = cfg!(target_arch = "wasm32");
+                if !is_web {
                     ui.menu_button("File", |ui| {
                         if ui.button("Quit").clicked() {
-                            _frame.close();
+                            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                         }
                     });
                     ui.add_space(16.0);
