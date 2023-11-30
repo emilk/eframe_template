@@ -7,8 +7,8 @@ rust-version = "1.72"
 
 
 [dependencies]
-egui = "0.24.0"
-eframe = { version = "0.24.0", default-features = false, features = [
+egui = "0.24.1"
+eframe = { version = "0.24.1", default-features = false, features = [
     "accesskit",     # Make egui comptaible with screen readers. NOTE: adds a lot of dependencies.
     "default_fonts", # Embed the default egui fonts.
     "glow",          # Use the glow rendering backend. Alternative: "wgpu".
