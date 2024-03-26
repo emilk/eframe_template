@@ -21,9 +21,6 @@ Change the name of the crate: Chose a good name for your project, and change the
     * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
 * `index.html`
     * Change the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
-* `assets/sw.js`
-  * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
-  * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 
 ### Learning about egui
 
@@ -59,7 +56,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 > appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds during development.
 
 ### Web Deploy
-1. Just run `trunk build --release`.
+1. Just run `sh build.sh`.
 2. It will generate a `dist` directory as a "static html" website
 3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 4. we already provide a workflow that auto-deploys our app to GitHub pages if you enable it.
