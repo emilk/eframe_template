@@ -1,0 +1,6 @@
+# https://github.com/crate-ci/typos
+# install:  cargo install typos-cli
+# run:      typos
+
+[default.extend-words]
+egui = "egui" # Example for how to ignore a false positive
