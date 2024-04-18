@@ -1,0 +1,61 @@
+# Copied from https://github.com/rerun-io/rerun_template
+
+################################################################################
+# Config for the link checker lychee.
+#
+# Download & learn more at:
+# https://github.com/lycheeverse/lychee
+#
+# Example config:
+# https://github.com/lycheeverse/lychee/blob/master/lychee.example.toml
+#
+# Run `lychee . --dump` to list all found links that are being checked.
+#
+# Note that by default lychee will only check markdown and html files,
+# to check any other files you have to point to them explicitly, e.g.:
+# `lychee **/*.rs`
+# To make things worse, `exclude_path` is ignored for these globs,
+# so local runs with lots of gitignored files will be slow.
+# (https://github.com/lycheeverse/lychee/issues/1405)
+#
+# This unfortunately doesn't list anything for non-glob checks.
+################################################################################
+
+# Maximum number of concurrent link checks.
+# Workaround for "too many open files" error on MacOS, see https://github.com/lycheeverse/lychee/issues/1248
+max_concurrency = 32
+
+# Check links inside `<code>` and `<pre>` blocks as well as Markdown code blocks.
+include_verbatim = true
+
+# Proceed for server connections considered insecure (invalid TLS).
+insecure = true
+
+# Exclude these filesystem paths from getting checked.
+exclude_path = [
+  # Unfortunately lychee doesn't yet read .gitignore https://github.com/lycheeverse/lychee/issues/1331
+  # The following entries are there because of that:
+  ".git",
+  "__pycache__",
+  "_deps/",
+  ".pixi",
+  "build",
+  "target_ra",
+  "target_wasm",
+  "target",
+  "venv",
+]
+
+# Exclude URLs and mail addresses from checking (supports regex).
+exclude = [
+  # Local links that require further setup.
+  'http://127.0.0.1',
+  'http://localhost',
+
+  # Api endpoints.
+  'https://fonts.googleapis.com/', # Font API entrypoint, not a link.
+  'https://fonts.gstatic.com/',    # Font API entrypoint, not a link.
+
+  # Avoid rate limiting.
+  'https://crates.io/crates/.*',                  # Avoid crates.io rate-limiting
+]
