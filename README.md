@@ -67,7 +67,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 >
 > If `gh-pages` is not available in `Source`, just create and push a branch called `gh-pages` and it should be available.
 >
-> If you renamed the `master` branch to something else (say you re-initialized the repository with `main` as the initial branch), be sure to edit the github workflows `.github/workflows/pages.yml` file to reflect the change
+> If you renamed the `main` branch to something else (say you re-initialized the repository with `master` as the initial branch), be sure to edit the github workflows `.github/workflows/pages.yml` file to reflect the change
 > ```yml
 > on:
 >   push:

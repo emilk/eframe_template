@@ -1,10 +1,10 @@
 name: Github Pages
 
-# By default, runs if you push to master. keeps your deployed app in sync with master branch.
+# By default, runs if you push to main. keeps your deployed app in sync with main branch.
 on:
   push:
     branches:
-      - master
+      - main
 # to only run when you do a new github release, comment out above part and uncomment the below trigger.
 # on:
 #   release:
