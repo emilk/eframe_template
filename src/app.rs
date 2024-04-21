@@ -102,7 +102,7 @@ fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {
         ui.label(" and ");
         ui.hyperlink_to(
             "eframe",
-            "https://github.com/emilk/egui/tree/main/crates/eframe",
+            "https://github.com/emilk/egui/tree/master/crates/eframe",
         );
         ui.label(".");
     });
