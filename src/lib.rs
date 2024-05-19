@@ -2,3 +2,4 @@
 
 mod app;
 pub use app::TemplateApp;
+mod order_table;
