@@ -118,13 +118,13 @@ jobs:
           TARGET: x86_64-apple-darwin
 
         - os: ubuntu-latest
-          TARGET: arm-unknown-linux-musleabihf
+          TARGET: aarch64-unknown-linux-gnu
 
         - os: ubuntu-latest
-          TARGET: armv7-unknown-linux-musleabihf
+          TARGET: armv7-unknown-linux-gnueabihf
 
         - os: ubuntu-latest
-          TARGET: x86_64-unknown-linux-musl
+          TARGET: x86_64-unknown-linux-gnu
 
         - os: windows-latest
           TARGET: x86_64-pc-windows-msvc
