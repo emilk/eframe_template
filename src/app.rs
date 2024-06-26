@@ -82,7 +82,7 @@ impl eframe::App for TemplateApp {
             ui.separator();
 
             ui.add(egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/master/",
+                "https://github.com/emilk/eframe_template/blob/main/",
                 "Source code."
             ));
 

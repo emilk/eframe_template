@@ -807,6 +807,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "document-features"
+version = "0.2.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef5282ad69563b5fc40319526ba27e0e7363d552a896f0297d54f767717f9b95"
+dependencies = [
+ "litrs",
+]
+
+[[package]]
 name = "downcast-rs"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -814,9 +823,9 @@ checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
 name = "ecolor"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57539aabcdbb733b6806ef421b66dec158dc1582107ad6d51913db3600303354"
+checksum = "c416b34b29e8f6b2492b5c80319cf9792d339550f0d75a54b53ed070045bbdeb"
 dependencies = [
  "bytemuck",
  "serde",
@@ -824,13 +833,14 @@ dependencies = [
 
 [[package]]
 name = "eframe"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79c00143a1d564cf27570234c9a199cbe75dc3d43a135510fb2b93406a87ee8e"
+checksum = "86811b20df847cfa73637020ee78de780407110f49785df2dea6741146ea5aac"
 dependencies = [
  "bytemuck",
  "cocoa",
  "directories-next",
+ "document-features",
  "egui",
  "egui-winit",
  "egui_glow",
@@ -844,6 +854,7 @@ dependencies = [
  "parking_lot",
  "percent-encoding",
  "raw-window-handle 0.5.2",
+ "raw-window-handle 0.6.0",
  "ron",
  "serde",
  "static_assertions",
@@ -851,6 +862,7 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
+ "web-time",
  "winapi",
  "winit",
 ]
@@ -869,9 +881,9 @@ dependencies = [
 
 [[package]]
 name = "egui"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0bf640ed7f3bf3d14ebf00d73bacc09c886443ee84ca6494bde37953012c9e3"
+checksum = "f8e20541e5d3da08cf817eb5c8a2bc4024f21aad7acf98de201442d6d76e0ecc"
 dependencies = [
  "accesskit",
  "ahash",
@@ -884,15 +896,15 @@ dependencies = [
 
 [[package]]
 name = "egui-winit"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d95d9762056c541bd2724de02910d8bccf3af8e37689dc114b21730e64f80a0"
+checksum = "ff4fc01bc3617dba9280475e9ab2382015e298f401d2318c2a1d78c419b6dffe"
 dependencies = [
  "accesskit_winit",
  "arboard",
  "egui",
  "log",
- "raw-window-handle 0.5.2",
+ "raw-window-handle 0.6.0",
  "serde",
  "smithay-clipboard",
  "web-time",
@@ -902,24 +914,24 @@ dependencies = [
 
 [[package]]
 name = "egui_glow"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb2ef815e80d117339c7d6b813f7678d23522d699ccd3243e267ef06166009b9"
+checksum = "743380a1c0f1dbb7bfe29663ce62b10785adda51105c9bb4e544e2f9955b4958"
 dependencies = [
  "bytemuck",
  "egui",
  "glow",
  "log",
- "memoffset 0.7.1",
+ "memoffset 0.9.0",
  "wasm-bindgen",
  "web-sys",
 ]
 
 [[package]]
 name = "emath"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ee58355767587db7ba3738930d93cad3052cd834c2b48b9ef6ef26fe4823b7e"
+checksum = "e87799f56edee11422267e1764dd0bf3fe1734888e8d2d0924a67b85f4998fbe"
 dependencies = [
  "bytemuck",
  "serde",
@@ -972,9 +984,9 @@ dependencies = [
 
 [[package]]
 name = "epaint"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e638cb066bff0903bbb6143116cfd134a42279c7d68f19c0352a94f15a402de7"
+checksum = "392eccd6d6b13fadccc268f4f61d9363775ec5711ffdece2a79006d676920bcf"
 dependencies = [
  "ab_glyph",
  "ahash",
@@ -1522,6 +1534,12 @@ name = "linux-raw-sys"
 version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c4cd1a83af159aa67994778be9070f0ae1bd732942279cabb14f86f986a21456"
+
+[[package]]
+name = "litrs"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4ce301924b7887e9d637144fdade93f9dfff9b60981d4ac161db09720d39aa5"
 
 [[package]]
 name = "lock_api"

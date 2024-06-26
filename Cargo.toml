@@ -3,12 +3,16 @@ name = "eframe_template"
 version = "0.1.0"
 authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
 edition = "2021"
-rust-version = "1.72"
+include = ["LICENSE-APACHE", "LICENSE-MIT", "**/*.rs", "Cargo.toml"]
+rust-version = "1.76"
 
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [dependencies]
-egui = "0.25.0"
-eframe = { version = "0.25.0", default-features = false, features = [
+egui = "0.27.0"
+eframe = { version = "0.27.0", default-features = false, features = [
     "accesskit",     # Make egui compatible with screen readers. NOTE: adds a lot of dependencies.
     "default_fonts", # Embed the default egui fonts.
     "glow",          # Use the glow rendering backend. Alternative: "wgpu".

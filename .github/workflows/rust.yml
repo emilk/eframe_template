@@ -1,19 +1,20 @@
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 name: CI
 
 env:
-  # This is required to enable the web_sys clipboard API which egui_web uses
+  # --cfg=web_sys_unstable_apis is required to enable the web_sys clipboard API which egui_web uses
   # https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Clipboard.html
   # https://rustwasm.github.io/docs/wasm-bindgen/web-sys/unstable-apis.html
-  RUSTFLAGS: --cfg=web_sys_unstable_apis
+  RUSTFLAGS: -D warnings --cfg=web_sys_unstable_apis
+  RUSTDOCFLAGS: -D warnings
 
 jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -28,7 +29,7 @@ jobs:
     name: Check wasm32
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -44,7 +45,7 @@ jobs:
     name: Test Suite
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -60,7 +61,7 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -76,7 +77,7 @@ jobs:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -92,14 +93,75 @@ jobs:
     name: trunk
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.72.0
+          toolchain: 1.76.0
           target: wasm32-unknown-unknown
           override: true
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
       - name: Build
         run: ./trunk build
+
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: macos-latest
+          TARGET: aarch64-apple-darwin
+
+        - os: macos-latest
+          TARGET: x86_64-apple-darwin
+
+        - os: ubuntu-latest
+          TARGET: arm-unknown-linux-musleabihf
+
+        - os: ubuntu-latest
+          TARGET: armv7-unknown-linux-musleabihf
+
+        - os: ubuntu-latest
+          TARGET: x86_64-unknown-linux-musl
+
+        - os: windows-latest
+          TARGET: x86_64-pc-windows-msvc
+          EXTENSION: .exe
+
+    steps:
+    - name: Building ${{ matrix.TARGET }}
+      run: echo "${{ matrix.TARGET }}"
+
+    - uses: actions/checkout@master
+    - uses: actions-rs/toolchain@v1.0.1
+      with:
+        toolchain: stable
+        target: ${{ matrix.TARGET }}
+        override: true
+
+    - uses: actions-rs/cargo@v1
+      with:
+        use-cross: true
+        command: build
+        args: --verbose --release --target=${{ matrix.TARGET }}
+
+    - name: Rename
+      run: cp target/${{ matrix.TARGET }}/release/eframe_template${{ matrix.EXTENSION }} eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        path: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+
+    - uses: svenstaro/upload-release-action@v2
+      name: Upload binaries to release
+      if: ${{ github.event_name == 'push' }}
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        asset_name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        tag: ${{ github.ref }}
+        prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        overwrite: true

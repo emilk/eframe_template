@@ -1,10 +1,10 @@
 name: Github Pages
 
-# By default, runs if you push to master. keeps your deployed app in sync with master branch.
+# By default, runs if you push to main. keeps your deployed app in sync with main branch.
 on:
   push:
     branches:
-      - master
+      - main
 # to only run when you do a new github release, comment out above part and uncomment the below trigger.
 # on:
 #   release:
@@ -30,12 +30,15 @@ jobs:
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
       - name: Build # build
-        # "${GITHUB_REPOSITORY#*/}" evaluates into the name of the repository
+        # Environment $public_url resolves to the github project page.
+        # If using a user/organization page, remove the `${{ github.event.repository.name }}` part.
         # using --public-url something will allow trunk to modify all the href paths like from favicon.ico to repo_name/favicon.ico .
         # this is necessary for github pages where the site is deployed to username.github.io/repo_name and all files must be requested
         # relatively as eframe_template/favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
         # will obviously return error 404 not found.
-        run: ./trunk build --release --public-url "${GITHUB_REPOSITORY#*/}"
+        run: ./trunk build --release --public-url $public_url
+        env:
+          public_url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
