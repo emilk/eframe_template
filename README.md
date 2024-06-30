@@ -25,7 +25,7 @@ Change the name of the crate: Choose a good name for your project, and change th
   * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
   * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 
-Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particulary useful if you clone this repository outside GitHub and hence cannot make use of its
+Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its
 templating function.
 
 ### Learning about egui
