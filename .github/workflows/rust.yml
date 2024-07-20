@@ -92,6 +92,10 @@ jobs:
           cross: true
 
         - os: ubuntu-latest
+          TARGET: armv7-unknown-linux-gnueabihf
+          cross: true
+
+        - os: ubuntu-latest
           TARGET: x86_64-unknown-linux-gnu
 
         - os: windows-latest
