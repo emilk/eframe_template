@@ -19,14 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # repo checkout
-      - name: Setup toolchain for wasm
-        run: |
-          rustup update stable
-          rustup default stable
-          rustup set profile minimal
-          rustup target add wasm32-unknown-unknown
-      - name: Rust Cache # cache the rust build artefacts
-        uses: Swatinem/rust-cache@v2
+      - uses: dtolnay/rust-toolchain@stable # get rust toolchain for wasm
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
       - name: Build # build
