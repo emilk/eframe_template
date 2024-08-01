@@ -74,7 +74,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 
 ### iOS Deploy
 1. Bundle App `cargo bundle --target x86-64-apple-ios --release`
-2. Run `./create_ipa`
+2. Run `./create_ipa --release`
 
 ### Web Deploy
 1. Just run `trunk build --release`.
