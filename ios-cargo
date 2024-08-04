@@ -27,14 +27,7 @@ def ipa(args):
 
     payload_dir = os.path.join(temp_dir, "Payload")
     os.makedirs(payload_dir)
-
-    for item in os.listdir(app_path):
-        s = os.path.join(app_path, item)
-        d = os.path.join(payload_dir, item)
-        if os.path.isdir(s):
-            shutil.copytree(s, d, dirs_exist_ok=True)
-        else:
-            shutil.copy2(s, d)
+    shutil.copytree(app_path, os.path.join(payload_dir, f'{app_name}.app'))
 
     ipa_path = f'{app_name}.ipa'
     with zipfile.ZipFile(ipa_path, 'w', zipfile.ZIP_DEFLATED) as ipa_file:
