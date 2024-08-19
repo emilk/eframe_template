@@ -16,12 +16,29 @@ env:
 jobs:
   check:
     name: Check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - TARGET: x86_64-unknown-linux-gnu
+          # If you add features to your crate, chances are you want to test for all features for native binaries,
+          # so that all features are checked and can be build by someone cloning your repository.
+          # If you build natively it will be a binary, the default binary will have the entrypoint "src/main.rs".
+          flags: "--all-features --bins"
+        - TARGET: wasm32-unknown-unknown
+          # With the current trunk setup, if you add features, the webpage will have the default features.
+          # You could test for all features too, however that might require a lot of conditional compilation annotations.
+          # Thus we only test for the default features by default.
+          # Since we build with trunk the entrypoint will also be the "src/main.rs" file.
+          flags: "--bin ${{ github.event.repository.name }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{matrix.TARGET}}
       - uses: Swatinem/rust-cache@v2
-      - run: cargo check --all-features --all-targets
+      - run: cargo check ${{matrix.flags}} --target ${{matrix.TARGET}}
 
   test:
     name: Test Suite
