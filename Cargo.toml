@@ -33,7 +33,9 @@ wasm-bindgen-futures = "0.4"
 
 # to access the DOM (to hide the loading text)
 [target.'cfg(target_arch = "wasm32")'.dependencies.web-sys]
-version = "0.3.4"
+# HACK: pin web-sys to <0.3.70 until a new `eframe` is released containing
+# the following PR: https://github.com/emilk/egui/pull/4980
+version = ">= 0.3.4, < 0.3.70"
 
 [profile.release]
 opt-level = 2 # fast and small wasm
