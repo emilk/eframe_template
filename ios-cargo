@@ -22,7 +22,13 @@ def ipa(args):
     app_name, _ = parse_cargo_toml()
     build_type = 'release'
     target = get_target(args)
-    app_path = f'target/{target}/{build_type}/bundle/ios/{app_name}.app'
+    cargo_target_dir = os.getenv('CARGO_TARGET_DIR')
+
+    if cargo_target_dir:
+        base_target_dir = cargo_target_dir
+    else:
+        base_target_dir = 'target'
+    app_path = os.path.join(base_target_dir, target, build_type, 'bundle', 'ios', f'{app_name}.app')
     temp_dir = tempfile.mkdtemp()
 
     payload_dir = os.path.join(temp_dir, "Payload")
@@ -95,7 +101,12 @@ def build(args):
     subprocess.run(command, check=True)
     app_name, _ = parse_cargo_toml()
     build_type = 'release' if args.release else 'debug'
-    plist_path = f'target/{target}/{build_type}/bundle/ios/{app_name}.app/Info.plist'
+    cargo_target_dir = os.getenv('CARGO_TARGET_DIR')
+    if cargo_target_dir:
+        base_target_dir = cargo_target_dir
+    else:
+        base_target_dir = 'target'
+    plist_path = os.path.join(base_target_dir, target, build_type, 'bundle', 'ios', f'{app_name}.app', 'Info.plist')
     post_process_info_plist(plist_path, args.ipad)
 
 def run_build(args):
