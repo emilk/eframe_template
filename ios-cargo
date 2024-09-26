@@ -91,6 +91,7 @@ def get_target(args):
     if args.target:
         target = args.target
     return target
+
 def build(args):
     target = get_target(args)
     command = ['cargo', 'bundle', '--target', target]
@@ -114,9 +115,15 @@ def run_build(args):
     build_type = 'release' if args.release else 'debug'
     target = get_target(args)
 
+    cargo_target_dir = os.getenv('CARGO_TARGET_DIR')
+    if cargo_target_dir:
+        base_target_dir = cargo_target_dir
+    else:
+        base_target_dir = 'target'
+    app_path = os.path.join(base_target_dir, target, build_type, 'bundle', 'ios', f'{app_name}.app')
+
     install_command = [
-        'xcrun', 'simctl', 'install', args.device,
-        f'target/{target}/{build_type}/bundle/ios/{app_name}.app'
+        'xcrun', 'simctl', 'install', args.device, app_path
     ]
 
     launch_command = ['xcrun', 'simctl', 'launch', '--console', args.device, app_id]
