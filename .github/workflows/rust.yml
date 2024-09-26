@@ -1,4 +1,8 @@
-on: [push, pull_request, workflow_dispatch]
+on: [
+  push, 
+  pull_request, 
+  workflow_dispatch,
+]
 
 name: CI
 
@@ -9,94 +13,70 @@ env:
 jobs:
   check:
     name: Check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - TARGET: x86_64-unknown-linux-gnu
+          # If you add features to your crate, chances are you want to test for all features for native binaries,
+          # so that all features are checked and can be build by someone cloning your repository.
+          # If you build natively it will be a binary, the default binary will have the entrypoint "src/main.rs".
+          flags: "--all-features --bins"
+        - TARGET: wasm32-unknown-unknown
+          # With the current trunk setup, if you add features, the webpage will have the default features.
+          # You could test for all features too, however that might require a lot of conditional compilation annotations.
+          # Thus we only test for the default features by default.
+          # Since we build with trunk the entrypoint will also be the "src/main.rs" file.
+          flags: "--bin ${{ github.event.repository.name }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-          args: --all-features
-
-  check_wasm:
-    name: Check wasm32
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-          args: --all-features --lib --target wasm32-unknown-unknown
+          targets: ${{matrix.TARGET}}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo check ${{matrix.flags}} --target ${{matrix.TARGET}}
 
   test:
     name: Test Suite
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - run: sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --lib
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --lib
 
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
           components: rustfmt
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
 
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
           components: clippy
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace --all-targets --all-features --  -D warnings -W clippy::all
 
   trunk:
     name: trunk
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: 1.76.0
-          target: wasm32-unknown-unknown
-          override: true
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
       - name: Build
@@ -109,13 +89,23 @@ jobs:
       matrix:
         include:
         - os: macos-latest
+          # macos-latest seems to already run on arm64(=aarch64):
+          # https://docs.github.com/en/actions/using-jobs/choosing-the-runner-for-a-job#standard-github-hosted-runners-for-public-repositories
           TARGET: aarch64-apple-darwin
+
+        - os: macos-latest
+          TARGET: x86_64-apple-darwin
+          # even though the runner uses arm64, MacOS on arm64 seems to support building for amd64.
+          # which makes sense, would be bad for devs otherwise.
+          cross: false 
 
         - os: ubuntu-latest
           TARGET: aarch64-unknown-linux-gnu
+          cross: true
 
         - os: ubuntu-latest
           TARGET: armv7-unknown-linux-gnueabihf
+          cross: true
 
         - os: ubuntu-latest
           TARGET: x86_64-unknown-linux-gnu
@@ -125,46 +115,57 @@ jobs:
           EXTENSION: .exe
 
     steps:
+    - name: Install cross
+      # Github doesnt have runners with exotic architectures (eg. arm64/aarch64 on anything but macos). 
+      # Thus we use cross.
+      # It's necessary to use an up-to-date cross from the git repository to avoid glibc problems on linux
+      # Ref: https://github.com/cross-rs/cross/issues/1510
+      if: matrix.cross
+      run: |
+        cargo install cross --git https://github.com/cross-rs/cross --rev 1b8cf50d20180c1a394099e608141480f934b7f7
+
     - name: Building ${{ matrix.TARGET }}
       run: echo "${{ matrix.TARGET }}"
 
     - uses: actions/checkout@master
-    - name: Install build dependencies - Rustup
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable --profile default --target ${{ matrix.TARGET }} -y
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-    # For linux, it's necessary to use cross from the git repository to avoid glibc problems
-    # Ref: https://github.com/cross-rs/cross/issues/1510
-    - name: Install cross for linux
-      if: contains(matrix.TARGET, 'linux')
-      run: |
-        cargo install cross --git https://github.com/cross-rs/cross --rev 1b8cf50d20180c1a394099e608141480f934b7f7
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ matrix.TARGET }}
 
-    - name: Install cross for mac and windows
-      if: ${{ !contains(matrix.TARGET, 'linux') }}
-      run: |
-        cargo install cross
+    - uses: Swatinem/rust-cache@v2
+      with:
+        # this is required to avoid failures due to caching of artifacts for different architectures
+        # The reason is the potential usage of cross.
+        # The cache checks the rustc host which doesn't record us targeting
+        # different architectures (and native) with cross on the generic ubuntu-latest.
+        key: ${{ matrix.TARGET }}
 
-    - name: Build
-      run: |
-        cross build --verbose --release --target=${{ matrix.TARGET }}
+    - if: ${{ !matrix.cross }}
+      name: Cargo Build
+      run: cargo build --verbose --release --target=${{ matrix.TARGET }}
+
+    - if: matrix.cross
+      name: Cross Build
+      run: cross build --verbose --release --target=${{ matrix.TARGET }}
 
     - name: Rename
-      run: cp target/${{ matrix.TARGET }}/release/eframe_template${{ matrix.EXTENSION }} eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+      run: cp target/${{ matrix.TARGET }}/release/${{ github.event.repository.name }}${{ matrix.EXTENSION }} ${{ github.event.repository.name }}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
     - uses: actions/upload-artifact@master
       with:
-        name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        path: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        name: ${{ github.event.repository.name }}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        path: ${{ github.event.repository.name }}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
+    # this requires read-write permissions on the repo:
+    # https://github.com/svenstaro/upload-release-action/issues/70
     - uses: svenstaro/upload-release-action@v2
       name: Upload binaries to release
       if: ${{ github.event_name == 'push' }}
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        asset_name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        file: ${{ github.event.repository.name }}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        asset_name: ${{ github.event.repository.name }}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
         tag: ${{ github.ref }}
         prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
         overwrite: true
