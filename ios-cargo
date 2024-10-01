@@ -6,6 +6,7 @@ import os
 import shutil
 import zipfile
 import tempfile
+import json
 
 def parse_cargo_toml():
     with open('Cargo.toml', 'rb') as f:
@@ -110,6 +111,31 @@ def build(args):
     plist_path = os.path.join(base_target_dir, target, build_type, 'bundle', 'ios', f'{app_name}.app', 'Info.plist')
     post_process_info_plist(plist_path, args.ipad)
 
+def get_booted_device():
+    result = subprocess.run(['xcrun', 'simctl', 'list', 'devices', '--json'], capture_output=True, text=True, check=True)
+    devices = json.loads(result.stdout)
+    for runtime in devices['devices']:
+        for dev in devices['devices'][runtime]:
+            if dev['state'] == 'Booted':
+                return dev['udid']
+    return None
+
+def boot_device(device):
+    print(f"Booting device {device}...")
+    subprocess.run(['xcrun', 'simctl', 'boot', device], check=True)
+    print(f"Device {device} booted.")
+
+def get_newest_iphone_udid():
+    result = subprocess.run(['xcrun', 'simctl', 'list', 'devices', '--json'], capture_output=True, text=True, check=True)
+    devices = json.loads(result.stdout)
+
+    for runtime in devices['devices']:
+        for dev in devices['devices'][runtime]:
+            if 'iPhone' in dev['name'] and dev['isAvailable'] and 'SE' not in dev['name']:
+                return dev['udid']
+
+    raise Exception("No available iPhone simulators found")
+
 def run_build(args):
     app_name, app_id = parse_cargo_toml()
     build_type = 'release' if args.release else 'debug'
@@ -121,6 +147,12 @@ def run_build(args):
     else:
         base_target_dir = 'target'
     app_path = os.path.join(base_target_dir, target, build_type, 'bundle', 'ios', f'{app_name}.app')
+
+    if args.device == "booted":
+        if not get_booted_device():
+            specific_device_udid = get_newest_iphone_udid()
+            boot_device(specific_device_udid)
+            args.device = specific_device_udid
 
     install_command = [
         'xcrun', 'simctl', 'install', args.device, app_path
