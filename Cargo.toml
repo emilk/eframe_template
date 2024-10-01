@@ -17,12 +17,7 @@ targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
 
 [dependencies]
 egui = "0.29"
-eframe = { version = "0.29", default-features = false, features = [
-    "accesskit",     # Make egui compatible with screen readers. NOTE: adds a lot of dependencies.
-    "default_fonts", # Embed the default egui fonts.
-    "wgpu",          # Use the wgpu rendering backend. Alternative: "glow".
-    "persistence",   # Enable restoring app state when restarting the app.
-] }
+eframe = { version = "0.29", default-features = false }
 log = "0.4"
 
 # You only need serde if you want app persistence:
@@ -36,6 +31,24 @@ env_logger = "0.11"
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen-futures = "0.4"
 web-sys = "0.3.70" # to access the DOM (to hide the loading text)
+
+# ios:
+[target.'cfg(target_os = "ios")'.dependencies]
+eframe = { version = "0.29", default-features = false, features = [
+    "accesskit",
+    "default_fonts",
+    "wgpu",         # Use the wgpu rendering backend on iOS.
+    "persistence",
+] }
+
+# not ios:
+[target.'cfg(not(target_os = "ios"))'.dependencies]
+eframe = { version = "0.29", default-features = false, features = [
+    "accesskit",
+    "default_fonts",
+    "glow",         # Use the glow rendering backend for non-iOS targets.
+    "persistence",
+] }
 
 [profile.release]
 opt-level = 2 # fast and small wasm
