@@ -61,6 +61,23 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 > `assets/sw.js` script will try to cache our app, and loads the cached version when it cannot connect to server allowing your app to work offline (like PWA).
 > appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds during development.
 
+### iOS Install
+1. Install xcode
+2. Accept license `sudo xcodebuild -license`
+3. Install cargo-bundle `cargo install cargo-bundle`
+4. Install the required target with `rustup target add x86_64-apple-ios` for old ios devices or sim
+5. Install the required target with `rustup target add aarch64-apple-ios` for modern ios devices
+6. Install the required target with `rustup target add aarch64-apple-ios-sim` for sim
+7. Install python3.11 or newer
+8. (Optional) move `./ios-cargo` to `$HOME/bin`
+
+
+### iOS run in Simulator
+`./ios-cargo run --sim`
+
+### iOS Deploy
+`./ios-cargo ipa --ipad --release`
+
 ### Web Deploy
 1. Just run `trunk build --release`.
 2. It will generate a `dist` directory as a "static html" website
