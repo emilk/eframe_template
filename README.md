@@ -65,7 +65,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 1. Install xcode
 2. Accept license `sudo xcodebuild -license`
 3. Install cargo-bundle `cargo install cargo-bundle`
-4. Install the required target with `rustup target add x86-64-apple-ios` for old ios devices or sim
+4. Install the required target with `rustup target add x86_64-apple-ios` for old ios devices or sim
 5. Install the required target with `rustup target add aarch64-apple-ios` for modern ios devices
 6. Install the required target with `rustup target add aarch64-apple-ios-sim` for sim
 7. Install python3.11 or newer
