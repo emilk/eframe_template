@@ -13,6 +13,10 @@ rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-and
 # install android ndk and sdk manually - you can follow steps on https://golb.n4n5.dev/android
 
 
+# install gradle by following instructions at https://gradle.org/install/
+# after the gradle install you can now install gradlew by running
+make gradle
+
 # will compile the cdylib and copy it to the android app
 make
 

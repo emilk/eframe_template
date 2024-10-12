@@ -1,6 +1,9 @@
 .DEFAULT_GOAL := apk
 .PHONY: jni apk run-on-device
 
+gradle:
+	cd java && gradle wrapper
+
 jni:
 	cargo ndk --target arm64-v8a -o ./java/app/src/main/jniLibs/ build --profile release --offline
 	cargo ndk --target x86_64-linux-android -o ./java/app/src/main/jniLibs/ build --profile release --offline
