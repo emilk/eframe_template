@@ -15,30 +15,14 @@ permissions:
   contents: write # for committing to gh-pages branch.
 
 jobs:
-  build-github-pages:
+  deploy-github-pages:
+    needs: trunk
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # repo checkout
-      - name: Setup toolchain for wasm
-        run: |
-          rustup update stable
-          rustup default stable
-          rustup set profile minimal
-          rustup target add wasm32-unknown-unknown
-      - name: Rust Cache # cache the rust build artefacts
-        uses: Swatinem/rust-cache@v2
-      - name: Download and install Trunk binary
-        run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
-      - name: Build # build
-        # Environment $public_url resolves to the github project page.
-        # If using a user/organization page, remove the `${{ github.event.repository.name }}` part.
-        # using --public-url something will allow trunk to modify all the href paths like from favicon.ico to repo_name/favicon.ico .
-        # this is necessary for github pages where the site is deployed to username.github.io/repo_name and all files must be requested
-        # relatively as eframe_template/favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
-        # will obviously return error 404 not found.
-        run: ./trunk build --release --public-url $public_url
-        env:
-          public_url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+      - uses: actions/download-artifact@v4
+        with:
+          name: eframe-template-wasm
+          path: dist
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
