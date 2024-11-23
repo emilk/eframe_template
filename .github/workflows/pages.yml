@@ -16,17 +16,33 @@ permissions:
 
 jobs:
   deploy-github-pages:
-    needs: trunk
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: cargo-bins/cargo-binstall@main
+      - name: Install cargo-generate and trunk
+        run: cargo binstall -y cargo-generate trunk
+      - name: Generate project
+        run: cargo generate --path . --name "eframe-template"
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          name: eframe-template-wasm
-          path: dist
+          targets: wasm32-unknown-unknown
+      - name: Build
+        working-directory: eframe-template
+        # Environment $public_url resolves to the github project page.
+        # If using a user/organization page, remove the `${{ github.event.repository.name }}` part.
+        # using --public-url something will allow trunk to modify all the href paths like from favicon.ico to repo_name/favicon.ico .
+        # this is necessary for github pages where the site is deployed to username.github.io/repo_name and all files must be requested
+        # relatively as eframe_template/favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
+        # will obviously return error 404 not found.
+        env:
+          public_url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+        run: trunk build --release --public-url $public_url
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: eframe-template/dist
           # this option will not maintain any history of your previous pages deployment
           # set to false if you want all page build to be committed to your gh-pages branch history
           single-commit: true
