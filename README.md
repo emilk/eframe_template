@@ -11,9 +11,17 @@ You can compile your app natively or for the web, and share it using Github Page
 
 ## Getting started
 
-To get started, run:
+If you don't have [`cargo-generate`](https://github.com/cargo-generate/cargo-generate) installed yet, install it with:
 
-`cargo generate --git https://github.com/emilk/eframe_template`
+```sh
+cargo install cargo-generate
+```
+
+Then create a project by running:
+
+```sh
+cargo generate --git https://github.com/emilk/eframe_template
+```
 
 ### Learning about egui
 
@@ -25,15 +33,21 @@ The official egui docs are at <https://docs.rs/egui>. If you prefer watching a v
 
 Make sure you are using the latest version of stable rust by running `rustup update`.
 
-`cargo run --release`
+```sh
+cargo run --release
+```
 
 On Linux you need to first run:
 
-`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
+```sh
+sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+```
 
 On Fedora Rawhide you need to run:
 
-`dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel`
+```sh
+dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel
+```
 
 ### Web Locally
 
