@@ -11,22 +11,17 @@ You can compile your app natively or for the web, and share it using Github Page
 
 ## Getting started
 
-Start by clicking "Use this template" at https://github.com/emilk/eframe_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
+If you don't have [`cargo-generate`](https://github.com/cargo-generate/cargo-generate) installed yet, install it with:
 
-Change the name of the crate: Choose a good name for your project, and change the name to it in:
-* `Cargo.toml`
-    * Change the `package.name` from `eframe_template` to `your_crate`.
-    * Change the `package.authors`
-* `main.rs`
-    * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
-* `index.html`
-    * Change the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
-* `assets/sw.js`
-  * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
-  * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
+```sh
+cargo install cargo-generate
+```
 
-Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its
-templating function.
+Then create a project by running:
+
+```sh
+cargo generate --git https://github.com/emilk/eframe_template
+```
 
 ### Learning about egui
 
@@ -38,15 +33,21 @@ The official egui docs are at <https://docs.rs/egui>. If you prefer watching a v
 
 Make sure you are using the latest version of stable rust by running `rustup update`.
 
-`cargo run --release`
+```sh
+cargo run --release
+```
 
 On Linux you need to first run:
 
-`sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
+```sh
+sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+```
 
 On Fedora Rawhide you need to run:
 
-`dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel`
+```sh
+dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel
+```
 
 ### Web Locally
 
@@ -78,7 +79,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 >       - <branch name>
 > ```
 
-You can test the template app at <https://emilk.github.io/eframe_template/>.
+You can test the template app at <https://emilk.github.io/{{project-name}}/>.
 
 ## Updating egui
 

@@ -7,102 +7,105 @@ env:
   RUSTDOCFLAGS: -D warnings
 
 jobs:
-  check:
-    name: Check
+  generate:
+    name: Generate from template
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: cargo-bins/cargo-binstall@main
+      - name: Install cargo-generate
+        run: cargo binstall -y cargo-generate
+      - name: Generate project
+        run: cargo generate --path . --name "eframe-template"
+      - uses: actions/upload-artifact@v4
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
+          name: eframe-template
+          path: eframe-template
+
+  check:
+    name: Check
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          command: check
-          args: --all-features
+          name: eframe-template
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check
+        run: cargo check
 
   check_wasm:
     name: Check wasm32
+    needs: generate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/download-artifact@v4
         with:
-          profile: minimal
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
-      - uses: actions-rs/cargo@v1
+          name: eframe-template
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          command: check
-          args: --all-features --lib --target wasm32-unknown-unknown
+          targets: wasm32-unknown-unknown
+      - name: Check
+        run: cargo check
 
   test:
-    name: Test Suite
+    name: Test suite
+    needs: generate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/download-artifact@v4
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - run: sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --lib
+          name: eframe-template
+      - name: Install dependencies
+        run: sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test
+        run: cargo test --lib
 
   fmt:
     name: Rustfmt
+    needs: generate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/download-artifact@v4
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: rustfmt
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+          name: eframe-template
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Format
+        run: cargo fmt --all -- --check
 
   clippy:
     name: Clippy
+    needs: generate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/download-artifact@v4
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: clippy
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
+          name: eframe-template
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
 
   trunk:
-    name: trunk
+    name: Trunk
+    needs: generate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/download-artifact@v4
         with:
-          profile: minimal
-          toolchain: 1.76.0
-          target: wasm32-unknown-unknown
-          override: true
-      - name: Download and install Trunk binary
-        run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
+          name: eframe-template
+      - uses: cargo-bins/cargo-binstall@main
+      - name: Install trunk
+        run: cargo binstall -y trunk
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
       - name: Build
-        run: ./trunk build
+        run: trunk build
 
   build:
+    needs: generate
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -128,7 +131,6 @@ jobs:
     - name: Building ${{ matrix.TARGET }}
       run: echo "${{ matrix.TARGET }}"
 
-    - uses: actions/checkout@master
     - name: Install build dependencies - Rustup
       run: |
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable --profile default --target ${{ matrix.TARGET }} -y
@@ -146,25 +148,27 @@ jobs:
       run: |
         cargo install cross
 
+    - uses: actions/download-artifact@v4
+      with:
+        name: eframe-template
     - name: Build
-      run: |
-        cross build --verbose --release --target=${{ matrix.TARGET }}
+      run: cross build --verbose --release --target=${{ matrix.TARGET }}
 
     - name: Rename
-      run: cp target/${{ matrix.TARGET }}/release/eframe_template${{ matrix.EXTENSION }} eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+      run: cp target/${{ matrix.TARGET }}/release/eframe-template${{ matrix.EXTENSION }} eframe-template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
     - uses: actions/upload-artifact@master
       with:
-        name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        path: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        name: eframe-template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        path: eframe-template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
     - uses: svenstaro/upload-release-action@v2
       name: Upload binaries to release
       if: ${{ github.event_name == 'push' }}
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        asset_name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        file: eframe-template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        asset_name: eframe-template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
         tag: ${{ github.ref }}
         prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
         overwrite: true
