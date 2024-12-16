@@ -43,8 +43,8 @@ opt-level = 2
 [patch.crates-io]
 
 # If you want to use the bleeding edge version of egui and eframe:
-# egui = { git = "https://github.com/emilk/egui", branch = "master" }
-# eframe = { git = "https://github.com/emilk/egui", branch = "master" }
+egui = { git = "https://github.com/emilk/egui", rev = "13742f7bc67007343359e296d2d858b22f292868" }   # DONT MERGE
+eframe = { git = "https://github.com/emilk/egui", rev = "13742f7bc67007343359e296d2d858b22f292868" } # DONT MERGE
 
 # If you fork https://github.com/emilk/egui you can test with:
 # egui = { path = "../egui/crates/egui" }
