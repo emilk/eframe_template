@@ -1,0 +1,14 @@
+android:
+  gradle: true
+  dependencies: [
+    'androidx.activity:activity-ktx:1.6.1'
+  ]
+  manifest:
+    package: "rs.egui.eframe_template"
+    application:
+      has_code: true
+      label: "Eframe Template"
+      activities: [
+        { name: ".MainActivity",
+        }
+      ]

@@ -7,4 +7,4 @@
 [toolchain]
 channel = "1.81"  # Avoid specifying a patch version here; see https://github.com/emilk/eframe_template/issues/145
 components = [ "rustfmt", "clippy" ]
-targets = [ "wasm32-unknown-unknown" ]
+targets = [ "wasm32-unknown-unknown","aarch64-linux-android" ]
