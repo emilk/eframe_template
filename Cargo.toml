@@ -6,9 +6,6 @@ edition = "2021"
 include = ["LICENSE-APACHE", "LICENSE-MIT", "**/*.rs", "Cargo.toml"]
 rust-version = "1.81"
 
-[lib]
-crate-type=["lib", "cdylib"]
-
 [package.metadata.docs.rs]
 all-features = true
 targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
@@ -36,6 +33,9 @@ env_logger = "0.11"
 wasm-bindgen-futures = "0.4"
 web-sys = "0.3.70"           # to access the DOM (to hide the loading text)
 
+[target.'cfg(target_os = "android")'.lib]
+crate-type=["lib", "cdylib"]
+
 [target.'cfg(target_os = "android")'.dependencies]
 android_logger = { version = "0.14", default-features = false}
 egui-winit = { version = "0.30", default-features = false, features = ["clipboard","links"]}
@@ -46,6 +46,7 @@ eframe = { version = "0.30", default-features = false, features = [
     "persistence",   # Enable restoring app state when restarting the app.
     "android-native-activity", 
 ] }
+
 
 [profile.release]
 opt-level = 2 # fast and small wasm
