@@ -15,7 +15,7 @@ import android.view.WindowManager;
 public class MainActivity : NativeActivity() {
 	companion object {
 		init {	
-			System.loadLibrary("eframe_template");
+			System.loadLibrary("eframe_template_android");
 		}
 	}
 
