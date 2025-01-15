@@ -25,13 +25,17 @@ log = "0.4"
 serde = { version = "1", features = ["derive"] }
 
 # native:
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+[target.'cfg(not(any(target_arch = "wasm32",target_os = "android")))'.dependencies]
 env_logger = "0.11"
 
 # web:
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen-futures = "0.4"
 web-sys = "0.3.70"           # to access the DOM (to hide the loading text)
+
+# android:
+[target.'cfg(target_os = "android")'.dependencies]
+android_logger = { version = "0.14", default-features = false}
 
 [profile.release]
 opt-level = 2 # fast and small wasm

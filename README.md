@@ -80,6 +80,16 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 
 You can test the template app at <https://emilk.github.io/eframe_template/>.
 
+### Android build
+
+Requires Android Studio, Android SDK, Android NDK, kotlin and gradle.
+
+We use [xbuild](https://github.com/rust-mobile/xbuild) to build for android.
+1. Install the required target with `rustup target add aarch64-linux-android`.
+2. Install xbuild with `cargo install --locked xbuild`.
+3. Run `x devices` to show connected devices. Make sure chosen device has enabled installation via usb.
+4. Run `x run --device chosen_device` to compile and run on that device.
+
 ## Updating egui
 
 As of 2023, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
