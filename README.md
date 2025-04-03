@@ -27,7 +27,7 @@ Change the name of the crate: Choose a good name for your project, and change th
 
 Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its
 templating function.
-(macOS users will need to install GNU sed first for the script to work, if you're using Homebrew you can use `brew install gnu-sed`)
+(macOS users will need to install GNU sed first for the script to work, if you're using Homebrew you can use `brew install gnu-sed` and then add it to your path `PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH")
 ### Learning about egui
 
 `src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
