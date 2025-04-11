@@ -36,8 +36,6 @@ The official egui docs are at <https://docs.rs/egui>. If you prefer watching a v
 
 ### Testing locally
 
-Make sure you are using the latest version of stable rust by running `rustup update`.
-
 `cargo run --release`
 
 On Linux you need to first run:
