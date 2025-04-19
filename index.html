@@ -10,7 +10,7 @@
     <title>eframe template</title>
 
     <!-- config for our rust wasm binary. go to https://trunkrs.dev/assets/#rust for more customization -->
-    <link data-trunk rel="rust" data-wasm-opt="2" />
+    <link data-trunk rel="rust" data-wasm-opt="2" data-wasm-opt-params="--enable-bulk-memory --enable-threads --enable-nontrapping-float-to-int" />
     <!-- this is the base url relative to which other urls will be constructed. trunk will insert this from the public-url option -->
     <base data-trunk-public-url />
 
