@@ -18,6 +18,7 @@ eframe = { version = "0.31", default-features = false, features = [
     "glow",          # Use the glow rendering backend. Alternative: "wgpu".
     "persistence",   # Enable restoring app state when restarting the app.
     "wayland",       # To support Linux (and CI)
+    "x11",           # To support older Linux distributions (restores one of the default features)
 ] }
 log = "0.4.27"
 
