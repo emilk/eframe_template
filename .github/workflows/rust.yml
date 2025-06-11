@@ -124,6 +124,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Get Cargo.toml Metadata
+        id: metadata
+        uses: nicolaiunrein/cargo-get@master
+
       - name: Build binary with Rust cross
         uses: houseabsolute/actions-rust-cross@v1
         with:
@@ -133,9 +137,9 @@ jobs:
           strip: true
 
       - name: Rename
-        run: cp target/${{ matrix.TARGET }}/release/tomltasks${{ matrix.EXTENSION }} tomltasks-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+        run: cp target/${{ matrix.TARGET }}/release/${{ steps.metadata.outputs.package_name}}${{ matrix.EXTENSION }} ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
       - uses: actions/upload-artifact@master
         with:
-          name: tomltasks-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-          path: tomltasks-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+          name: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+          path: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
