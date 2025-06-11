@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
-          override: true
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rs/cargo@v1
         with:
           command: check
@@ -27,12 +26,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rs/cargo@v1
         with:
           command: check
@@ -43,11 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
-          override: true
+      - uses: Swatinem/rust-cache@v2
       - run: sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
       - uses: actions-rs/cargo@v1
         with:
@@ -59,12 +56,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
-          override: true
           components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+
       - uses: actions-rs/cargo@v1
         with:
           command: fmt
@@ -75,12 +72,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
-          override: true
           components: clippy
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rs/cargo@v1
         with:
           command: clippy
@@ -91,12 +87,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: 1.81.0
-          target: wasm32-unknown-unknown
-          override: true
+          toolchain: stable
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
       - name: Download and install Trunk binary
         run: wget -qO- https://github.com/thedodd/trunk/releases/latest/download/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
       - name: Build
@@ -108,63 +103,54 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: macos-latest
-          TARGET: aarch64-apple-darwin
+          - os-name: Ubuntu latest x86
+            os: ubuntu-latest
+            TARGET: x86_64-unknown-linux-musl
 
-        - os: ubuntu-latest
-          TARGET: aarch64-unknown-linux-gnu
+          - os-name: Ubuntu latest ARM
+            os: ubuntu-latest
+            TARGET: aarch64-unknown-linux-musl
 
-        - os: ubuntu-latest
-          TARGET: armv7-unknown-linux-gnueabihf
+          - os-name: Windows latest x86
+            os: windows-latest
+            TARGET: x86_64-pc-windows-msvc
+            EXTENSION: .exe
 
-        - os: ubuntu-latest
-          TARGET: x86_64-unknown-linux-gnu
-
-        - os: windows-latest
-          TARGET: x86_64-pc-windows-msvc
-          EXTENSION: .exe
+          - os-name: MacOS latest ARM
+            os: macos-latest
+            TARGET: aarch64-apple-darwin
 
     steps:
-    - name: Building ${{ matrix.TARGET }}
-      run: echo "${{ matrix.TARGET }}"
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - uses: actions/checkout@master
-    - name: Install build dependencies - Rustup
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable --profile default --target ${{ matrix.TARGET }} -y
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      - name: Get Cargo.toml Metadata
+        id: metadata
+        uses: nicolaiunrein/cargo-get@master
 
-    # For linux, it's necessary to use cross from the git repository to avoid glibc problems
-    # Ref: https://github.com/cross-rs/cross/issues/1510
-    - name: Install cross for linux
-      if: contains(matrix.TARGET, 'linux')
-      run: |
-        cargo install cross --git https://github.com/cross-rs/cross --rev 1b8cf50d20180c1a394099e608141480f934b7f7
+      - name: Build binary with Rust cross
+        uses: houseabsolute/actions-rust-cross@v1
+        with:
+          command: build
+          target: ${{ matrix.TARGET }}
+          args: "--release"
+          strip: true
 
-    - name: Install cross for mac and windows
-      if: ${{ !contains(matrix.TARGET, 'linux') }}
-      run: |
-        cargo install cross
+      - name: Rename
+        run: cp target/${{ matrix.TARGET }}/release/${{ steps.metadata.outputs.package_name}}${{ matrix.EXTENSION }} ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
-    - name: Build
-      run: |
-        cross build --verbose --release --target=${{ matrix.TARGET }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+          path: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
 
-    - name: Rename
-      run: cp target/${{ matrix.TARGET }}/release/eframe_template${{ matrix.EXTENSION }} eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-
-    - uses: actions/upload-artifact@master
-      with:
-        name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        path: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-
-    - uses: svenstaro/upload-release-action@v2
-      name: Upload binaries to release
-      if: ${{ github.event_name == 'push' }}
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        asset_name: eframe_template-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
-        tag: ${{ github.ref }}
-        prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
-        overwrite: true
+      - uses: svenstaro/upload-release-action@v2
+        name: Upload binaries to release
+        if: ${{ github.event_name == 'push' }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+          asset_name: ${{ steps.metadata.outputs.package_name}}-${{ matrix.TARGET }}${{ matrix.EXTENSION }}
+          tag: ${{ github.ref }}
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+          overwrite: true
