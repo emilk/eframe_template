@@ -12,11 +12,20 @@
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs { inherit system overlays; };
+        
+        rustToolchainToml = fromTOML (builtins.readFile ./rust-toolchain);
+        inherit (rustToolchainToml.toolchain) channel targets components;
+
+        rustToolchain = pkgs.rust-bin.stable.${channel}.default.override {
+          extensions = components;
+          inherit targets;
+        };
+
       in with pkgs; {
         devShells.default = mkShell rec {
           buildInputs = [
             # Rust
-            rust-bin.stable.latest.default
+            rustToolchain
             trunk
 
             # misc. libraries
