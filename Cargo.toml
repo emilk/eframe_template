@@ -21,6 +21,7 @@ eframe = { version = "0.33.0", default-features = false, features = [
     "x11",           # To support older Linux distributions (restores one of the default features)
 ] }
 log = "0.4.27"
+wgpu = { version = "27.0.1", default-features = true }
 
 # You only need serde if you want app persistence:
 serde = { version = "1.0.219", features = ["derive"] }
