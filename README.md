@@ -1,85 +1,94 @@
 # eframe template
 
-[![dependency status](https://deps.rs/repo/github/emilk/eframe_template/status.svg)](https://deps.rs/repo/github/emilk/eframe_template)
-[![Build Status](https://github.com/emilk/eframe_template/workflows/CI/badge.svg)](https://github.com/emilk/eframe_template/actions?workflow=CI)
+Bu, [egui](https://github.com/emilk/egui/) kullanarak uygulamalar yazmak için bir framework olan [eframe](https://github.com/emilk/egui/tree/master/crates/eframe) için hazırlanmış bir şablon deposudur (template repo).
 
-This is a template repo for [eframe](https://github.com/emilk/egui/tree/master/crates/eframe), a framework for writing apps using [egui](https://github.com/emilk/egui/).
+Hedef, bunun Rust ile bir GUI uygulaması yazmaya başlamanın en basit yolu olmasıdır.
 
-The goal is for this to be the simplest way to get started writing a GUI app in Rust.
+Uygulamanızı yerel (native) olarak veya web için derleyebilir ve GitHub Pages kullanarak paylaşabilirsiniz.
 
-You can compile your app natively or for the web, and share it using Github Pages.
+## Başlangıç
 
-## Getting started
+https://github.com/emilk/eframe_template/ adresindeki "Use this template" butonuna tıklayarak veya [bu talimatları](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) izleyerek başlayın.
 
-Start by clicking "Use this template" at https://github.com/emilk/eframe_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
+Crate adını değiştirin: Projeniz için iyi bir isim seçin ve aşağıdaki dosyalarda ismi değiştirin:
 
-Change the name of the crate: Choose a good name for your project, and change the name to it in:
 * `Cargo.toml`
-    * Change the `package.name` from `eframe_template` to `your_crate`.
-    * Change the `package.authors`
+* `package.name` kısmını `eframe_template` yerine `sizin_crate_adiniz` yapın.
+* `package.authors` kısmını değiştirin.
+
+
 * `main.rs`
-    * Change `eframe_template::TemplateApp` to `your_crate::TemplateApp`
+* `eframe_template::TemplateApp` kısmını `sizin_crate_adiniz::TemplateApp` olarak değiştirin.
+
+
 * `index.html`
-    * Change the `<title>eframe template</title>` to `<title>your_crate</title>`. optional.
+* `<title>eframe template</title>` kısmını `<title>sizin_crate_adiniz</title>` olarak değiştirin (isteğe bağlı).
+
+
 * `assets/sw.js`
-  * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
-  * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
+* `'./eframe_template.js'` kısmını `./sizin_crate_adiniz.js` olarak değiştirin (`filesToCache` dizisi içinde).
+* `'./eframe_template_bg.wasm'` kısmını `./sizin_crate_adiniz_bg.wasm` olarak değiştirin (`filesToCache` dizisi içinde).
 
-Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its
-templating function.
 
-### Learning about egui
 
-`src/app.rs` contains a simple example app. This is just to give some inspiration - most of it can be removed if you like.
+Alternatif olarak, gerekli isimleri ve e-postayı soracak ve yukarıdaki yamaları sizin için yapacak olan `fill_template.sh` dosyasını çalıştırabilirsiniz. Bu, özellikle bu depoyu GitHub dışında klonlarsanız ve bu nedenle GitHub'ın şablon oluşturma özelliğini kullanamıyorsanız yararlıdır.
 
-The official egui docs are at <https://docs.rs/egui>. If you prefer watching a video introduction, check out <https://www.youtube.com/watch?v=NtUkr_z7l84>. For inspiration, check out the [the egui web demo](https://emilk.github.io/egui/index.html) and follow the links in it to its source code.
+### egui Hakkında Öğrenilecekler
 
-### Testing locally
+`src/app.rs` basit bir örnek uygulama içerir. Bu sadece ilham vermek içindir - isterseniz çoğunu kaldırabilirsiniz.
+
+Resmi egui belgeleri [https://docs.rs/egui](https://docs.rs/egui) adresindedir. Video tanıtımını tercih ederseniz, [https://www.youtube.com/watch?v=NtUkr_z7l84](https://www.youtube.com/watch?v=NtUkr_z7l84) adresine göz atın. İlham almak için [egui web demosuna](https://emilk.github.io/egui/index.html) bakın ve içindeki kaynak kod bağlantılarını takip edin.
+
+### Yerelde Test Etme
 
 `cargo run --release`
 
-On Linux you need to first run:
+Linux üzerinde öncelikle şunu çalıştırmanız gerekir:
 
 `sudo apt-get install libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev`
 
-On Fedora Rawhide you need to run:
+Fedora Rawhide üzerinde şunu çalıştırmanız gerekir:
 
 `dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel`
 
-### Web Locally
+### Yerelde Web
 
-You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page.
+Uygulamanızı [WASM](https://en.wikipedia.org/wiki/WebAssembly) olarak derleyebilir ve bir web sayfası olarak yayınlayabilirsiniz.
 
-We use [Trunk](https://trunkrs.dev/) to build for web target.
-1. Install the required target with `rustup target add wasm32-unknown-unknown`.
-2. Install Trunk with `cargo install --locked trunk`.
-3. Run `trunk serve` to build and serve on `http://127.0.0.1:8080`. Trunk will rebuild automatically if you edit the project.
-4. Open `http://127.0.0.1:8080/index.html#dev` in a browser. See the warning below.
+Web hedefi için derleme yapmak amacıyla [Trunk](https://trunkrs.dev/) kullanıyoruz.
 
-> `assets/sw.js` script will try to cache our app, and loads the cached version when it cannot connect to server allowing your app to work offline (like PWA).
-> appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds during development.
+1. `rustup target add wasm32-unknown-unknown` ile gerekli hedefi yükleyin.
+2. `cargo install --locked trunk` ile Trunk'ı yükleyin.
+3. Derlemek ve `http://127.0.0.1:8080` adresinde sunmak için `trunk serve` komutunu çalıştırın. Trunk, projeyi düzenlediğinizde otomatik olarak yeniden derleyecektir.
+4. Bir tarayıcıda `http://127.0.0.1:8080/index.html#dev` adresini açın. Aşağıdaki uyarıya bakın.
 
-### Web Deploy
-1. Just run `trunk build --release`.
-2. It will generate a `dist` directory as a "static html" website
-3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
-4. we already provide a workflow that auto-deploys our app to GitHub pages if you enable it.
-> To enable Github Pages, you need to go to Repository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root).
->
-> If `gh-pages` is not available in `Source`, just create and push a branch called `gh-pages` and it should be available.
->
-> If you renamed the `main` branch to something else (say you re-initialized the repository with `master` as the initial branch), be sure to edit the github workflows `.github/workflows/pages.yml` file to reflect the change
+> `assets/sw.js` betiği uygulamamızı önbelleğe almaya çalışacak ve sunucuya bağlanamadığında önbelleğe alınmış sürümü yükleyerek uygulamanızın çevrimdışı çalışmasına (PWA gibi) olanak tanıyacaktır.
+> `index.html` dosyasına `#dev` eklemek bu önbelleğe almayı atlayacak ve geliştirme sırasında en son derlemeleri yüklememize izin verecektir.
+
+### Web Dağıtımı (Deploy)
+
+1. Sadece `trunk build --release` komutunu çalıştırın.
+2. Bu, "static html" web sitesi olarak bir `dist` dizini oluşturacaktır.
+3. `dist` dizinini, [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) dahil olmak üzere çok sayıda ücretsiz barındırma web sitesinden herhangi birine yükleyin.
+4. Etkinleştirirseniz uygulamamızı otomatik olarak GitHub Pages'e dağıtan bir iş akışını (workflow) zaten sağlıyoruz.
+
+> Github Pages'i etkinleştirmek için Repository -> Settings -> Pages -> Source kısmına gidip `gh-pages` dalı ve `/` (root) olarak ayarlamanız gerekir.
+> Eğer `gh-pages` dalı `Source` kısmında mevcut değilse, sadece `gh-pages` adında bir dal oluşturup push edin, ardından kullanılabilir olacaktır.
+> Eğer `main` dalının adını başka bir şeyle değiştirdiyseniz (örneğin depoyu başlangıç dalı `master` olacak şekilde yeniden başlattıysanız), değişikliği yansıtmak için `.github/workflows/pages.yml` dosyasını düzenlediğinizden emin olun:
 > ```yml
 > on:
 >   push:
 >     branches:
->       - <branch name>
+>       - <dal adı>
+> 
 > ```
+> 
+> 
 
-You can test the template app at <https://emilk.github.io/eframe_template/>.
+Şablon uygulamayı [https://emilk.github.io/eframe_template/](https://emilk.github.io/eframe_template/) adresinde test edebilirsiniz.
 
-## Updating egui
+## egui Güncelleme
 
-As of 2023, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
+2023 itibarıyla egui, bozucu değişiklikler içeren sık sürümlerle aktif geliştirme aşamasındadır. [eframe_template](https://github.com/emilk/eframe_template/), her zaman egui'nin en son sürümünü kullanacak şekilde eş zamanlı olarak güncellenecektir.
 
-When updating `egui` and `eframe` it is recommended you do so one version at the time, and read about the changes in [the egui changelog](https://github.com/emilk/egui/blob/master/CHANGELOG.md) and [eframe changelog](https://github.com/emilk/egui/blob/master/crates/eframe/CHANGELOG.md).
+`egui` ve `eframe` güncellerken, bunu her seferinde bir sürüm atlayarak yapmanız ve değişiklikler hakkında [egui sürüm notlarını](https://github.com/emilk/egui/blob/master/CHANGELOG.md) ve [eframe sürüm notlarını](https://github.com/emilk/egui/blob/master/crates/eframe/CHANGELOG.md) okumanız önerilir.
