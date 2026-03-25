@@ -28,15 +28,15 @@ impl TemplateApp {
         // Load previous app state (if any).
         // Note that you must enable the `persistence` feature for this to work.
         if let Some(storage) = cc.storage {
-            return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
+            eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default()
+        } else {
+            Default::default()
         }
-
-        Default::default()
     }
 }
 
 impl eframe::App for TemplateApp {
-    /// Called by the frame work to save state before shutdown.
+    /// Called by the framework to save state before shutdown.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
     }
@@ -49,7 +49,7 @@ impl eframe::App for TemplateApp {
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // The top panel is often a good place for a menu bar:
 
-            egui::menu::bar(ui, |ui| {
+            egui::MenuBar::new().ui(ui, |ui| {
                 // NOTE: no File->Quit on web pages!
                 let is_web = cfg!(target_arch = "wasm32");
                 if !is_web {
