@@ -17,6 +17,31 @@ pub fn main() -> anyhow::Result<()> {
     )?;
     do_switch(&["Cargo.toml"], "Emil Ernerfeldt", "{{ author }}")?;
     do_switch(&["Cargo.toml"], "emil.ernerfeldt@gmail.com", "{{ email }}")?;
+    do_switch(
+        &["src/main.rs", "index.html"],
+        "eframe template",
+        "{{ crate_display_name }}",
+    )?;
+    do_switch(
+        &["assets/sw.js"],
+        "egui-template-pwa",
+        "{{ pwa_short_name }}",
+    )?;
+    do_switch(
+        &["src/app.rs", "src/lib.rs", "src/main.rs"],
+        "TemplateApp",
+        "{{ app_struct_identifier }}",
+    )?;
+    do_switch(
+        &["assets/manifest.json"],
+        "egui-template-pwa",
+        "{{ pwa_short_name }}",
+    )?;
+    do_switch(
+        &["assets/manifest.json"],
+        "egui Template PWA",
+        "{{ pwa_name }}",
+    )?;
     println!("Completed");
     Ok(())
 }
