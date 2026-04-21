@@ -31,11 +31,6 @@ pub fn main() -> anyhow::Result<()> {
         "{{ pwa_short_name }}",
     )?;
     do_switch(
-        &["src/app.rs", "src/lib.rs", "src/main.rs"],
-        "TemplateApp",
-        "{{ app_struct_identifier }}",
-    )?;
-    do_switch(
         &["assets/manifest.json"],
         "egui-template-pwa",
         "{{ pwa_short_name }}",
@@ -44,6 +39,11 @@ pub fn main() -> anyhow::Result<()> {
         &["assets/manifest.json"],
         "egui Template PWA",
         "{{ pwa_name }}",
+    )?;
+    do_switch(
+        &["src/app.rs", "src/lib.rs", "src/main.rs"],
+        "TemplateApp",
+        "{{ app_struct_identifier }}",
     )?;
     println!("Completed");
     Ok(())
