@@ -11,6 +11,8 @@ You can compile your app natively or for the web, and share it using Github Page
 
 ## Getting started
 
+### Using Github "Use this template" and manual edit
+
 Start by clicking "Use this template" at https://github.com/emilk/eframe_template/ or follow [these instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 
 Change the name of the crate: Choose a good name for your project, and change the name to it in:
@@ -25,8 +27,26 @@ Change the name of the crate: Choose a good name for your project, and change th
   * Change the `'./eframe_template.js'` to `./your_crate.js` (in `filesToCache` array)
   * Change the `'./eframe_template_bg.wasm'` to `./your_crate_bg.wasm` (in `filesToCache` array)
 
-Alternatively, you can run `fill_template.sh` which will ask for the needed names and email and perform the above patches for you. This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its
-templating function.
+### Using cargo-generate
+
+This is particularly useful if you clone this repository outside GitHub and hence cannot make use of its templating function.
+
+You first need to install `cargo generate` this can be done using the command `cargo install cargo-generate` or see the [docs](https://cargo-generate.github.io/cargo-generate/installation.html) for more info.
+
+Then run the following command and fill in the values to generate a new project `cargo generate emilk/eframe_template --branch cargo-gen`.
+You may also provide default via [many methods](https://cargo-generate.github.io/cargo-generate/templates/template_defined_placeholders.html#default-values-for-placeholders). For the list of placeholder names see (cargo-generate.toml)
+
+You can also add egui to your cargo generate config as a [favorite](https://cargo-generate.github.io/cargo-generate/favorites.html) to make the command you need to type shorter. For example you could add the following:
+
+```
+# $CARGO_HOME/cargo-generate.toml eg. ~/.cargo/cargo-generate.toml
+[favorites.egui]
+git = "git@github.com:emilk/eframe_template.git"
+branch = "cargo-gen"
+description = "Sets up a new egui project"
+```
+
+Then you can use the shorter command `cargo generate egui`.
 
 ### Learning about egui
 
