@@ -15,8 +15,11 @@ pub fn main() -> anyhow::Result<()> {
         "eframe_template",
         "{{ crate_name }}",
     )?;
-    do_switch(&["Cargo.toml"], "Emil Ernerfeldt", "{{ author }}")?;
-    do_switch(&["Cargo.toml"], "emil.ernerfeldt@gmail.com", "{{ email }}")?;
+    do_switch(
+        &["Cargo.toml"],
+        "Emil Ernerfeldt <emil.ernerfeldt@gmail.com>",
+        "{{ authors }}",
+    )?;
     do_switch(
         &["src/main.rs", "src/app.rs", "index.html"],
         "eframe template",
