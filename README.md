@@ -34,7 +34,8 @@ This is particularly useful if you clone this repository outside GitHub and henc
 You first need to install `cargo generate` this can be done using the command `cargo install cargo-generate` or see the [docs](https://cargo-generate.github.io/cargo-generate/installation.html) for more info.
 
 Then run the following command and fill in the values to generate a new project `cargo generate emilk/eframe_template --branch cargo-gen`.
-You may also provide default via [many methods](https://cargo-generate.github.io/cargo-generate/templates/template_defined_placeholders.html#default-values-for-placeholders). For the list of placeholder names see (cargo-generate.toml)
+You may also provide default values via [many methods](https://cargo-generate.github.io/cargo-generate/templates/template_defined_placeholders.html#default-values-for-placeholders).
+For the list of placeholder names see (cargo-generate.toml)
 
 You can also add egui to your cargo generate config as a [favorite](https://cargo-generate.github.io/cargo-generate/favorites.html) to make the command you need to type shorter. For example you could add the following:
 
