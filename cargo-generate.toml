@@ -16,5 +16,5 @@ exclude = [
 [placeholders]
 crate_display_name = { prompt = "Crate display name", default = "eframe template", type = "string" }
 pwa_short_name = { prompt = "PWA Short Name", default = "egui-template-pwa", type = "string" }
-pwa_name = { prompt = "PWA Short Name", default = "egui Template PWA", type = "string" }
-app_struct_identifier = { prompt = "PWA Short Name", default = "TemplateApp", type = "string" }
+pwa_name = { prompt = "PWA Name", default = "egui Template PWA", type = "string" }
+app_struct_identifier = { prompt = "App struct identifier", default = "TemplateApp", type = "string" }
