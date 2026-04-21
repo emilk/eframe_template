@@ -1,0 +1,20 @@
+[template]
+# These will not be copied to users project
+ignore = ["fill_template.rs"]
+exclude = [
+  # These cause the substitution code to fail
+  "assets/apple-touch-icon.png",
+  "assets/favicon-16x16.png",
+  "assets/favicon-192x192.png",
+  "assets/favicon-32x32.png",
+  "assets/favicon-512x512.png",
+  "assets/favicon.ico",
+  # These use similar syntax to Liquid and we don't have any changes we need to make
+  ".github",
+]
+
+[placeholders]
+crate_display_name = { prompt = "Crate display name", default = "eframe template", type = "string" }
+pwa_short_name = { prompt = "PWA Short Name", default = "egui-template-pwa", type = "string" }
+pwa_name = { prompt = "PWA Short Name", default = "egui Template PWA", type = "string" }
+app_struct_identifier = { prompt = "PWA Short Name", default = "TemplateApp", type = "string" }
