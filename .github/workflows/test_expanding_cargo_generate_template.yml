@@ -10,7 +10,7 @@ on:
       - cargo-gen
 
 jobs:
-  build:
+  test-expand-cargo-generate:
     runs-on: ubuntu-latest
     env:
       PROJECT_NAME: my_project_name
