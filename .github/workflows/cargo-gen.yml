@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - create-cargo-generate-template # For testing
 
 permissions:
   contents: write # for committing to cargo-gen branch.
