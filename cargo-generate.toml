@@ -3,7 +3,6 @@
 ignore = [
   "fill_template.rs",
   ".github/workflows/cargo-gen.yml",
-  ".github/workflows/test_expanding_cargo_generate_template.yml",
 ]
 exclude = [
   # These cause the substitution code to fail
