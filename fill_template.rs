@@ -45,6 +45,26 @@ pub fn main() -> anyhow::Result<()> {
         "TemplateApp",
         "{{ app_struct_identifier }}",
     )?;
+    do_switch(
+        &["README.md"],
+        "# eframe template",
+        "# {{ crate_display_name }}",
+    )?;
+    do_switch(
+        &["README.md"],
+        "repo/github/emilk/eframe_template",
+        "repo/github/{{ github_repository_owner_and_name }}",
+    )?;
+    do_switch(
+        &["README.md"],
+        "emilk/eframe_template/workflows",
+        "{{ github_repository_owner_and_name }}/workflows",
+    )?;
+    do_switch(
+        &["README.md"],
+        "emilk/eframe_template/actions",
+        "{{ github_repository_owner_and_name }}/actions",
+    )?;
     println!("Completed");
     Ok(())
 }
