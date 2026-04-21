@@ -13,7 +13,7 @@ pub fn main() -> anyhow::Result<()> {
     do_switch(
         &["Cargo.toml", "src/main.rs", "index.html", "assets/sw.js"],
         "eframe_template",
-        "{{ crate }}",
+        "{{ crate_name }}",
     )?;
     do_switch(&["Cargo.toml"], "Emil Ernerfeldt", "{{ author }}")?;
     do_switch(&["Cargo.toml"], "emil.ernerfeldt@gmail.com", "{{ email }}")?;
