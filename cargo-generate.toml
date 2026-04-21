@@ -1,6 +1,10 @@
 [template]
 # These will not be copied to users project
-ignore = ["fill_template.rs", ".github/workflows/cargo-gen.yml"]
+ignore = [
+  "fill_template.rs",
+  ".github/workflows/cargo-gen.yml",
+  ".github/workflows/test_expanding_cargo_generate_template.yml",
+]
 exclude = [
   # These cause the substitution code to fail
   "assets/apple-touch-icon.png",
