@@ -12,6 +12,7 @@ exclude = [
   "assets/favicon-32x32.png",
   "assets/favicon-512x512.png",
   "assets/favicon.ico",
+  "dist",
   # These use similar syntax to Liquid and we don't have any changes we need to make
   ".github",
 ]
