@@ -14,8 +14,31 @@ permissions:
   contents: write # for committing to cargo-gen branch.
 
 jobs:
+  try_expanding_template:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: test-expand
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly # Possible issue here, needed for the single file rust script but may cause tests to fail
+      - name: Replace values with placeholders
+        run: ./fill_template.rs
+      - uses: cargo-generate/cargo-generate-action@latest
+        with:
+          name: ${{ env.PROJECT_NAME }}
+      # we need to move the generated project to a temp folder, away from the template project
+      # otherwise `cargo` runs would fail 
+      # see https://github.com/rust-lang/cargo/issues/9922
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          cargo check
   create-cargo-generate-template:
     runs-on: ubuntu-latest
+    needs: [ try_expanding_template ] # Only update the other branch if the test passes
     steps:
       - uses: actions/checkout@v4 # repo checkout
       - uses: actions-rs/toolchain@v1
