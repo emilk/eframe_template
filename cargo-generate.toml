@@ -17,8 +17,8 @@ exclude = [
 ]
 
 [placeholders]
-crate_display_name = { prompt = "Crate display name", default = "eframe template", type = "string" }
-pwa_short_name = { prompt = "PWA Short Name", default = "egui-template-pwa", type = "string" }
-pwa_name = { prompt = "PWA Name", default = "egui Template PWA", type = "string" }
-app_struct_identifier = { prompt = "App struct identifier", default = "TemplateApp", type = "string" }
-github_repository_owner_and_name = { prompt = "Github user/organization and repo (for status badges in readme)", default = "emilk/eframe_template", type = "string" }
+crate_display_name = { prompt = "Crate display name", default = "eframe template1", type = "string" }
+pwa_short_name = { prompt = "PWA Short Name", default = "egui-template-pwa1", type = "string" }
+pwa_name = { prompt = "PWA Name", default = "egui Template PWA1", type = "string" }
+app_struct_identifier = { prompt = "App struct identifier", default = "TemplateApp1", type = "string" }
+github_repository_owner_and_name = { prompt = "Github user/organization and repo (for status badges in readme)", default = "emilk/eframe_template1", type = "string" }
