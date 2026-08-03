@@ -59,14 +59,14 @@ fn main() {
         // Remove the loading text and spinner:
         if let Some(loading_text) = document.get_element_by_id("loading_text") {
             match start_result {
-                Ok(_) => {
+                Ok(()) => {
                     loading_text.remove();
                 }
-                Err(e) => {
+                Err(err) => {
                     loading_text.set_inner_html(
                         "<p> The app has crashed. See the developer console for details. </p>",
                     );
-                    panic!("Failed to start eframe: {e:?}");
+                    panic!("Failed to start eframe: {err:?}");
                 }
             }
         }
