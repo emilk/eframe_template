@@ -3,20 +3,15 @@
   "short_name": "egui-template-pwa",
   "icons": [
     {
-      "src": "./assets/icon-256.png",
-      "sizes": "256x256",
+      "src": "./assets/favicon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./assets/maskable_icon_x512.png",
+      "src": "./assets/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "./assets/icon-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
     }
   ],
   "lang": "en-US",
