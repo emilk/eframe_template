@@ -1,5 +1,5 @@
 export default function myInitializer () {
-    const progress = document.getElementById("progress");
+  const progress = document.getElementById("progress");
   return {
     onStart: () => {
       console.log("Loading...");
