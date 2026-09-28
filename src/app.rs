@@ -1,4 +1,3 @@
-
 /// Use the egui re-export
 use eframe::egui;
 
